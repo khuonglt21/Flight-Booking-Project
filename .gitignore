@@ -1,8 +1,8 @@
 node_modules
-<<<<<<< HEAD
+
 .env
 .idea
-=======
+
 .env### Node template
 # Logs
 logs
@@ -121,4 +121,4 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
->>>>>>> a9e6f880fd5cf4838dad7aa33d6e6e92a5f22905
+
