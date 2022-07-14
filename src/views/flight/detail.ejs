@@ -1,0 +1,58 @@
+<h2>Create Detail Flight</h2>
+<form action="" method="POST">
+    <!--    <h2>Class</h2>-->
+    <!--    <label for="class">Choose a class:</label>-->
+    <!--    <select name="class" id="class">-->
+    <!--        <option value="economy">Economy</option>-->
+    <!--        <option value="business">Business</option>-->
+    <!--    </select>-->
+
+<!--    <p><%= JSON.stringify(flights) %></p>-->
+<!--    <p><%= JSON.stringify(classNames) %></p>-->
+    <h2>flightID</h2>
+
+    <!--city-->
+    <label for="flightID">flightID</label>
+    <select name="flightID" id="flightID">
+        <% flights.forEach( flight => { %>
+            <option value="<%= flight._id %>"><%= flight.flightCode %></option>
+        <% }) %>
+    </select>
+    <br>
+    <h2>Type Class ID</h2>
+    <label for="typeID">Type Class ID</label>
+    <select name="typeID" id="typeID">
+        <% classNames.forEach( className => { %>
+            <option value="<%= className._id %>"><%= className.class %></option>
+        <% }) %>
+    </select>
+
+    <h2>Price</h2>
+    <label for="price">Price</label>
+    <input type="number" name="price" id="price" required><br>
+    <h2>Remaining Seats</h2>
+    <label for="remainingSeats">Remaining Seats</label>
+    <input type="number" name="remainingSeats" id="remainingSeats" required><br>
+    <h2>Baggage</h2>
+    <!--    <label for="number">Date</label>-->
+    <select name="baggage" id="baggage" required>
+        <option value="0">0 kg</option>
+        <option value="20">20 kg</option>
+        <option value="23">23 kg</option>
+        <option value="30">30 kg</option>
+        <option value="32">32 kg</option>
+    </select>
+
+
+    <h2>Luggage</h2>
+    <!--    <label for="number">Date</label>-->
+    <select name="luggage" id="luggage" required>
+        <option value="7">7 kg</option>
+        <option value="10">10 kg</option>
+        <option value="12">12 kg</option>
+    </select>
+
+    <br>
+    <button type="submit" id="submit">Create</button>
+
+</form>
