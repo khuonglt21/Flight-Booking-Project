@@ -13,6 +13,7 @@ const authRouter_1 = __importDefault(require("./src/router/authRouter"));
 const express_session_1 = __importDefault(require("express-session"));
 const productRouter_1 = __importDefault(require("./src/router/productRouter"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const createFlight_router_1 = __importDefault(require("./src/router/createFlight.router"));
 dotenv_1.default.config();
 const db_1 = __importDefault(require("./src/config/db"));
 const app = (0, express_1.default)();
@@ -32,6 +33,7 @@ app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
 app.use('/auth', authRouter_1.default);
 app.use('/home', productRouter_1.default);
+app.use('/flight', createFlight_router_1.default);
 (0, db_1.default)();
 app.listen(PORT, () => {
     console.log(`You are listening on port: ${PORT}`);

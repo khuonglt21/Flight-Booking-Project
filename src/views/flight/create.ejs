@@ -1,0 +1,69 @@
+<h2>Create Flight</h2>
+<form action="" method="POST">
+    <!--    <h2>Class</h2>-->
+    <!--    <label for="class">Choose a class:</label>-->
+    <!--    <select name="class" id="class">-->
+    <!--        <option value="economy">Economy</option>-->
+    <!--        <option value="business">Business</option>-->
+    <!--    </select>-->
+    <label for="flightCode">Flight code</label>
+    <input type="text" name="flightCode" id="flightCode"><br>
+
+    <h2>Departure</h2>
+    <!--city-->
+    <label for="departure">Departure</label>
+    <select name="departure" id="departure">
+        <% airports.forEach( airport => { %>
+            <option value="<%= airport._id %>"><%= airport.name %></option>
+        <% }) %>
+    </select>
+    <br>
+    <h2>Arrival</h2>
+    <label for="arrival">Arrival</label>
+    <select name="arrival" id="arrival">
+        <% airports.forEach( airport => { %>
+            <option value="<%= airport._id %>"><%= airport.name %></option>
+        <% }) %>
+    </select>
+    <h2>STD</h2>
+    <label for="STD">Standard Time Departure</label>
+    <input type="text" name="STD" id="STD"><br>
+    <h2>STA</h2>
+    <label for="STA">Standard Time Arrival</label>
+    <input type="text" name="STA" id="STA"><br>
+    <h2>Date</h2>
+    <%
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
+    today = yyyy + '-' + mm + '-' + dd;
+    %>
+    <label for="date">Date</label>
+    <input type="date" name="date" id="date" min="<%= today %>"><br>
+    <h2>Type</h2>
+
+    <label for="type">Choose a type:</label>
+    <select name="type" id="type">
+        <option value="a320">Airbus A320</option>
+        <option value="e195">Embraer E195</option>
+        <option value="a321">Airbus A321</option>
+        <option value="b787">Boeing B787</option>
+        <option value="a350">Airbus A350</option>
+    </select>
+
+
+    <h2>Airline</h2>
+
+    <label for="airline">Choose a airline:</label>
+    <select name="airline" id="airline">
+        <option value="VNA">Vietnam Airline</option>
+        <option value="QH">Bamboo Airway</option>
+        <option value="VJ">Vietjet Air</option>
+        <option value="VU">Viet Travel</option>
+
+    </select>
+
+    <button type="submit" id="submit">Create </button>
+
+</form>

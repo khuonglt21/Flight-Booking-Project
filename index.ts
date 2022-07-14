@@ -14,7 +14,7 @@ import productRouter from "./src/router/productRouter";
 import adminRouter from "./src/router/adminRouter";
 import {admin} from "./src/middleware/admin";
 import dotenv from "dotenv";
-
+import createFlightRouter from "./src/router/createFlight.router";
 dotenv.config();
 import connectDB from "./src/config/db";
 
@@ -47,6 +47,7 @@ app.use(passport.session());
 
 app.use('/auth', authRouter);
 app.use('/home', productRouter);//get in home page
+app.use('/flight', createFlightRouter);//get in home page
 // app.use('/admin',auth.checkAuth,admin.checkAdmin,adminRouter);
 
 // connect DB
