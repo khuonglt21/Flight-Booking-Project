@@ -22,7 +22,7 @@
         body {font-family: "Lato", sans-serif}
         .mySlides {display: none}
         /*li{font-size: 12px}*/
-        .menu1{ border: solid whitesmoke 1px;margin-top:5px;margin-bottom: 5px;font-size: 12px}
+        .menu1{ border: solid whitesmoke 1px;margin-top:10px;margin-bottom: 10px;font-size: 20px;padding: 10px}
         .menu1:hover{ border-color: blue ; }
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -93,16 +93,91 @@
     <div class="container" style="max-width:100%; max-height:100%">
         <div class="w3" id="tour">
             <%for(let i = 0; i < flightInfo.length; i++) {%>
-            <div class="w3-container w3-content w3-padding-5-5-5-5 menu1"   style="max-width:80% ;border-radius: 15px; background-color: white">
-<!--                <span class="w3-tag w3-red w3-margin-right">Sold out</span>-->
-                <ul  class="w3-ul w3-border w3-white w3-text-pink font-weight-bold" >
-                    <li class="w3-padding"><h1><%=flightInfo[i].flightID["airline"]%> Airline</h1></li>
-                    <li class="w3-padding">STD : <%= flightInfo[i].flightID["STD"] %>  <span class="w3-padding w3-right w3-margin-right">STA: <%=flightInfo[i].flightID["STA"]%></span></li>
-                    <li class="w3-padding">From: <%=flightInfo[i].flightID["departure"]["code"]%> <span class="w3-padding w3-right w3-margin-right">To: <%=flightInfo[i].flightID["arrival"]["code"]%></span></li>
-                    <li class="w3-padding">Price: <%=flightInfo[i].price%> </li>
-                </ul>
-                <span class="w3-padding w3-right w3-margin-right"> <a class="btn btn-warning" href="/home/prebooking/<%=flightInfo[i]._id%>-3.2.2">BUY</a></span>
+            <div class="w3-container w3-content w3-padding-15-15-15-15 menu1"   style="max-width:80% ;border-radius: 15px; background-color: white">
+
+                    <div id="tab1">
+                        <div class="submit-form">
+                            <h1><%=flightInfo[i].flightID["airline"]%> Airline</h1>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <fieldset>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <fieldset>
+                                            STD : <%= flightInfo[i].flightID["STD"] %>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <fieldset>
+                                            STA : <%= flightInfo[i].flightID["STA"] %>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-3">
+                                       <p class="w3-text-orange font-weight-bold menu1"><%=flightInfo[i].price%> VND/ khách</p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <fieldset>
+
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <fieldset>
+                                            From: <%=flightInfo[i].flightID["departure"]["code"]%>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <fieldset>
+                                            To: <%=flightInfo[i].flightID["arrival"]["code"]%>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <fieldset>
+                                            <a class="btn btn-danger" href="/home/prebooking/<%=flightInfo[i]._id%>-<%= passengersSearch%>" style="width: 100%">BUY</a>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-md-4" id="return-date">
+                                        <fieldset>
+
+                                        </fieldset>
+                                    </div>
+
+
+                                    <div class="col-md-12" >
+                                        <fieldset>
+
+                                        </fieldset>
+                                        <div class="row">
+
+                                        </div>
+                                        <div class="row">
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6"></div>
+                                    <div class="col-md-12">
+                                        <fieldset>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+                        </div>
+                    </div>
+
             </div>
+<!--            <div class="w3-container w3-content w3-padding-5-5-5-5 menu1"   style="max-width:80% ;border-radius: 15px; background-color: white">-->
+<!--&lt;!&ndash;                <span class="w3-tag w3-red w3-margin-right">Sold out</span>&ndash;&gt;-->
+<!--                <ul  class="w3-ul  w3-white w3-text-pink font-weight-bold" >-->
+<!--                    <li class="w3-padding"><h1><%=flightInfo[i].flightID["airline"]%> Airline</h1></li>-->
+<!--                    <li class="w3-padding">STD : <%= flightInfo[i].flightID["STD"] %>  <span class="w3-padding w3-right w3-margin-right">STA: <%=flightInfo[i].flightID["STA"]%></span></li>-->
+<!--                    <li class="w3-padding">From: <%=flightInfo[i].flightID["departure"]["code"]%> <span class="w3-padding w3-right w3-margin-right">To: <%=flightInfo[i].flightID["arrival"]["code"]%></span></li>-->
+<!--                    <li class="w3-padding">Price: <%=flightInfo[i].price%> </li>-->
+<!--                </ul>-->
+<!--                <span class="w3-padding w3-right w3-margin-right"> <a class="btn btn-warning" href="/home/prebooking/<%=flightInfo[i]._id%>-<%= passengersSearch%>">BUY</a></span>-->
+<!--            </div>-->
             <%}%>
         </div>
     </div>

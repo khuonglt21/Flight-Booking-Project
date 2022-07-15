@@ -9,6 +9,7 @@ class ProductController {
 
     // [GET] /home/booking
     async showHome(req, res, next) {
+        console.log(req.user)
         let airports = await airportModel.find({});
         let classNames = await classModel.find({});
         return res.render('home', {airports, classNames})

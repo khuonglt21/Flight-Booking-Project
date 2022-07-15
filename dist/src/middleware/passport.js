@@ -22,10 +22,16 @@ passport_1.default.use(new passport_local_1.default(function (username, password
     });
 }));
 passport_1.default.serializeUser((user, done) => {
-    done(null, user);
+    done(null, user["_id"]);
 });
-passport_1.default.deserializeUser(function (user, done) {
-    done(null, user);
+passport_1.default.deserializeUser(async (userID, done) => {
+    const user = await User_model_1.default.findOne({ _id: userID });
+    if (user) {
+        done(null, user);
+    }
+    else {
+        console.log("User not found!");
+    }
 });
 exports.default = passport_1.default;
 //# sourceMappingURL=passport.js.map
