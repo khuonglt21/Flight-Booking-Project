@@ -15,7 +15,6 @@ router.get('/list-ticket', async(req, res,next) => {
     // console.log(flightInfo);
     res.render('middle',{flightInfo:flightInfo})
 });
-});
 
 router.get("/flight",productController.searchFlight);
 
