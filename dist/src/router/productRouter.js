@@ -16,5 +16,6 @@ router.get('/list-ticket', async (req, res, next) => {
     const flightInfo = await showFlightControllers_1.default.showDetailFlight(req, res, next);
     res.render('middle', { flightInfo: flightInfo });
 });
+router.get('/prebooking/:flightId-:passengers', showFlightControllers_1.default.showInfoFlight);
 exports.default = router;
 //# sourceMappingURL=productRouter.js.map

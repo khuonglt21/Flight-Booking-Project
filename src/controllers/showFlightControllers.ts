@@ -35,6 +35,29 @@ class ShowFlightController {
             ])
         // console.log(fullDetailFlight[0].flightID["departure"]["code"])
         return (fullDetailFlight)
+    };
+
+    async showInfoFlight(req, res, next) {
+       console.log(req.params)
+        const passengers = req.params.passengers;
+       let quantityPassenger = passengers.split('.');
+        console.log(quantityPassenger);
+        const searchFlight = {_id:req.params.flightId}
+        let fullDetailFlight = await flightDetailModel.find(searchFlight)
+            .populate([
+                {
+                    path: "flightID", select: [], populate: [
+                        {path: "departure"},
+                        {path: "arrival"}
+                    ]
+                },
+                {path: "typeID", select: "class"}
+            ])
+
+        const options = {weekday: 'short', year: 'numeric', month: 'long', day: 'numeric'};
+        options["timeZone"] = 'Asia/Bangkok';
+        let date = fullDetailFlight[0].flightID["date"].toLocaleDateString('en-GB', options);
+        res.render('list-tickets', {flightInfo: fullDetailFlight, date: date,quantityPassenger: quantityPassenger});
     }
 }
 
