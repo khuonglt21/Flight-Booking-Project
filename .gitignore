@@ -2,6 +2,7 @@ node_modules
 
 .env
 .idea
+dist/tsconfig.build.tsbuildinfo
 
 .env### Node template
 # Logs
