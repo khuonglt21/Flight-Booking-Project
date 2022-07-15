@@ -20,3 +20,10 @@ router.get('/create-detail', CreateFlightController.showCreateDetail);
 router.post('/create-detail', CreateFlightController.createDetailFlight);
 
 router.get('/detail-flight', CreateFlightController.showDetailFlight);
+
+router.get('/prebooking/:flightID-:passengers', (req, res, next) => {
+    // ///prebooking/123456-10
+    // return req.params
+
+
+})
