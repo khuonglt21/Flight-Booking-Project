@@ -11,11 +11,7 @@ router.get('/booking', productController_1.default.showHome);
 router.get('/support', ((req, res) => {
     res.render('demo');
 }));
-router.get('/list-ticket', async (req, res, next) => {
-    const flightInfo = await showFlightControllers_1.default.showDetailFlight(req, res, next);
-    res.render('middle', { flightInfo: flightInfo });
-});
-router.get("/flight", productController_1.default.searchFlight);
+router.get('/flight', showFlightControllers_1.default.showDetailFlight);
 router.get("/booking-flight", productController_1.default.bookingFlight);
 router.get('/prebooking/:flightId-:passengers', showFlightControllers_1.default.showInfoFlight);
 exports.default = router;

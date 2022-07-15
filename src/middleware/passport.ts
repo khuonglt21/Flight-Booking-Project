@@ -20,11 +20,24 @@ passport.use(new LocalStrategy(
     }
 ));
 
+
+// After login , create session and cookie
 passport.serializeUser((user, done) => {
-    done(null, user)
-})
-passport.deserializeUser(function (user, done) {
-    done(null, user);
+    // user là biến hứng được từ bên passport.use Stragery ở trên
+    done(null, user["_id"])
 });
+
+// Tại các lần truy cập lần sau, passport sẽ kiểm tra xem trong session có lưu giá trị đã cài ở trên không, nếu có thì xác minh là đã đăng nhập thành công
+
+passport.deserializeUser(async (userID, done) => {
+    const user = await User.findOne({_id: userID});
+    // console.log(user,'userID'+ userID);
+    if (user) {
+        // Nếu tìm ra được user thì gắn nó vào trong req.user
+        done(null, user);
+    } else {
+        console.log("User not found!")
+    }
+})
 
 export default passport;
