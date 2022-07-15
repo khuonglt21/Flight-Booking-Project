@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const app_root_path_1 = __importDefault(require("app-root-path"));
 const passport_1 = __importDefault(require("./src/middleware/passport"));
+const errorControllers_1 = __importDefault(require("./src/controllers/errorControllers"));
 const appRootPath = app_root_path_1.default.path;
 const path_1 = __importDefault(require("path"));
 const authRouter_1 = __importDefault(require("./src/router/authRouter"));
@@ -35,6 +36,7 @@ app.use('/auth', authRouter_1.default);
 app.use('/home', productRouter_1.default);
 app.use('/flight', createFlight_router_1.default);
 (0, db_1.default)();
+app.use(errorControllers_1.default.errorRender);
 app.listen(PORT, () => {
     console.log(`You are listening on port: ${PORT}`);
 });

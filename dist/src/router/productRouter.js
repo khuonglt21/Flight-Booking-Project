@@ -17,5 +17,6 @@ router.get('/list-ticket', async (req, res, next) => {
 });
 router.get("/flight", productController_1.default.searchFlight);
 router.get("/booking-flight", productController_1.default.bookingFlight);
+router.get('/prebooking/:flightId-:passengers', showFlightControllers_1.default.showInfoFlight);
 exports.default = router;
 //# sourceMappingURL=productRouter.js.map

@@ -1,6 +1,6 @@
 export const admin ={
     checkAdmin:function (req,res,next) {
-        console.log(req.body.role);
+        console.log(req.user);
         if(req.body.role == 'admin'){
             next()
         }else{

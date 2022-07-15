@@ -21,4 +21,5 @@ router.get("/flight",productController.searchFlight);
 // [GET] fill passage info
 router.get("/booking-flight", productController.bookingFlight)
 
+router.get('/prebooking/:flightId-:passengers', flightDetail.showInfoFlight);
 export default router

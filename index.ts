@@ -4,7 +4,7 @@ import bodyParser from "body-parser";
 import appRoot from "app-root-path";
 import {logger} from "./src/logger/winston";
 import passport from "./src/middleware/passport"
-
+import errorControllers from "./src/controllers/errorControllers";
 const appRootPath = appRoot.path;
 import path from "path";
 import authRouter from "./src/router/authRouter"
@@ -52,6 +52,8 @@ app.use('/flight', createFlightRouter);//get in home page
 
 // connect DB
 connectDB();
+
+app.use(errorControllers.errorRender);
 
 app.listen(PORT, () => {
     console.log(`You are listening on port: ${PORT}`);
