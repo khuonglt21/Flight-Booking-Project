@@ -141,22 +141,40 @@ class CreateFlightController {
                 class: "economy"
             }
         }*/
-        // const searchFlight = {}
-        const searchFlight = {'flightID.departure.code' : {$regex: "HAN", $options: "gim"}}
+        const searchFlight = {}
+        // const searchFlight = {'flightID.departure.code' : {$regex: "HAN", $options: "gim"}}
+        // const searchFlight = { price : 2350000 }
         // const searchFlight = {luggage : 10}
+
+        const departureSearch = "HAN";
+        const arrivalSearch = "DAD";
+        const passagers = parseInt("3");
+        const date ="2022-07-19T00:00:00.000Z"
 
         let fullDetailFlight = await flightDetailModel.find(searchFlight)
             .populate([
                 {
                     path: "flightID", select: [], populate: [
-                        {path: "departure"},
-                        {path: "arrival"}
+                        {path: "departure"/*, match: {code: departureSearch}*/},
+                        {path: "arrival"/*, match: {code: arrivalSearch}*/}
                     ]
                 },
                 {path: "typeID", select: "class"}
             ])
+
         // console.log(fullDetailFlight[0].flightID["departure"]["code"])
-        return res.json(fullDetailFlight);
+
+
+        let searchDetailFlight = fullDetailFlight.filter(flight => {
+            return flight.flightID["departure"]["code"] === "HAN"
+                // && flight.flightID["date"] === date
+                && flight.flightID["arrival"]["code"] === "DAD"
+                && flight.remainingSeats >= passagers
+        })
+        // return res.json(fullDetailFlight);
+        return res.json(searchDetailFlight);
+
+
     }
 
 
