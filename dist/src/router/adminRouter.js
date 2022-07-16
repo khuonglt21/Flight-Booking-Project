@@ -4,11 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const User_model_1 = __importDefault(require("../schemas/User.model"));
+const adminController_1 = require("../controllers/adminController");
 const router = express_1.default.Router();
-router.get('/list-users', async (req, res) => {
-    const users = await User_model_1.default.find();
-    console.log(users);
-});
+router.get('/list-users', adminController_1.adminController.renderListUser);
+router.get('/banned', adminController_1.adminController.bannedUser);
 exports.default = router;
 //# sourceMappingURL=adminRouter.js.map

@@ -48,7 +48,8 @@ app.use(passport.session());
 app.use('/auth', authRouter);
 app.use('/home', productRouter);//get in home page
 app.use('/flight', createFlightRouter);//get in home page
-// app.use('/admin',auth.checkAuth,admin.checkAdmin,adminRouter);
+app.use('/admin',auth.checkAuth,admin.checkAdmin,adminRouter);
+app.use('/user',auth.checkAuth)
 
 // connect DB
 connectDB();

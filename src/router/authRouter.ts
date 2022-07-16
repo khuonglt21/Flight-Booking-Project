@@ -1,20 +1,12 @@
 import express from "express";
 const router = express.Router();
 import passport from "../middleware/passport";
-import {userController} from "../controllers/userController";
+import {authController} from "../controllers/authController";
 
-router.get('/login', ((req, res, next) => {
-    res.render('login')
-}));
-router.get('/register', ((req, res, next) => {
-    let message = ''
-    res.render('signup',{message: message})
-}));
+router.get('/login', authController.renderLogin);
+router.get('/register', authController.renderRegister);
 
-router.post('/register', async(req, res, next) => {
-    console.log(req.body);
-   await userController.checkConfirmPassword(req,res);
-})
+router.post('/register', authController.registerUser)
 
 router.post('/login', passport.authenticate('local', {
     failureRedirect: '/auth/login',

@@ -1,10 +1,10 @@
 export const admin ={
     checkAdmin:function (req,res,next) {
         console.log(req.user);
-        if(req.body.role == 'admin'){
+        if(req.user.role == 'admin'){
             next()
         }else{
-            res.redirect('/list/book')
+            res.redirect('/admin/list-users')
         }
     }
 }

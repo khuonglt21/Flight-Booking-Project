@@ -20,6 +20,7 @@ passport.use(new LocalStrategy(
     }
 ));
 
+//Google login
 
 // After login , create session and cookie
 passport.serializeUser((user, done) => {
