@@ -23,22 +23,32 @@
 /// <reference types="mongoose/types/inferschematype" />
 import { Schema } from 'mongoose';
 declare const user: import("mongoose").Model<{
-    username?: string;
+    username: string;
+    role: string;
+    isBanned: boolean;
+    email: string;
+    avatarUrl: string;
     password?: string;
-    role?: string;
     google?: {
         id: {
             type: StringConstructor;
         };
     };
+    firstName?: string;
+    lastName?: string;
 }, {}, {}, {}, Schema<any, import("mongoose").Model<any, any, any, any, any>, {}, {}, any, {}, "type", {
-    username?: string;
+    username: string;
+    role: string;
+    isBanned: boolean;
+    email: string;
+    avatarUrl: string;
     password?: string;
-    role?: string;
     google?: {
         id: {
             type: StringConstructor;
         };
     };
+    firstName?: string;
+    lastName?: string;
 }>>;
 export default user;

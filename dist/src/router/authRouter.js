@@ -6,18 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
 const passport_1 = __importDefault(require("../middleware/passport"));
-const userController_1 = require("../controllers/userController");
-router.get('/login', ((req, res, next) => {
-    res.render('login');
-}));
-router.get('/register', ((req, res, next) => {
-    let message = '';
-    res.render('signup', { message: message });
-}));
-router.post('/register', async (req, res, next) => {
-    console.log(req.body);
-    await userController_1.userController.checkConfirmPassword(req, res);
-});
+const authController_1 = require("../controllers/authController");
+router.get('/login', authController_1.authController.renderLogin);
+router.get('/register', authController_1.authController.renderRegister);
+router.post('/register', authController_1.authController.registerUser);
 router.post('/login', passport_1.default.authenticate('local', {
     failureRedirect: '/auth/login',
     successRedirect: '/home/booking'

@@ -17,6 +17,15 @@
 
     <!--Custom styles-->
     <link rel="stylesheet" type="text/css" href="/public/css/loginStyle.css">
+    <style>
+        .card{
+            height: 500px;
+            margin-top: auto;
+            margin-bottom: auto;
+            width: 400px;
+            background-color: rgba(0,0,0,0.5) !important;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -32,44 +41,57 @@
             </div>
             <div class="card-body">
                 <form method="post" action="/auth/register">
-                    <div class="input-group form-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="form-outline">
+                            <input type="text" placeholder="First Name" name="firstName" class="form-control form-control-lg" />
                         </div>
-                        <input type="text" class="form-control" placeholder="username" name="username">
                     </div>
-                    <div class="input-group form-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                    <div class="col-md-6 mb-4">
+                        <div class="form-outline">
+                            <input type="text" placeholder="Last Name" name="lastName" class="form-control form-control-lg" />
                         </div>
-                        <input type="password" class="form-control" placeholder="password" name="password">
+                    </div>
+                </div>
+                <div class="row"></div>
+                <div class="row">
+                    <div class="col-md-12 mb-12">
+                        <input type="text" placeholder="Email" name="email" class="form-control form-control-lg" required/>
+                    </div>
+                </div>
+                <div class="row-cols-1"></div>
+                <div class="row">
+                    <div class="col-md-12 mb-12">
+                        <input type="text" placeholder="Username" name="username" class="form-control form-control-lg" required/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mb-12">
+                        <input type="password" placeholder="Password" name="password" class="form-control form-control-lg" value=""/>
+                    </div>
+                    <div class="col-md-12 mb-12">
+                        <input type="password" placeholder="Confirm Password" name="confirmPassword" class="form-control form-control-lg" value=""/>
                     </div>
                     <div>
+                        <p style="color: red"><%=message%></p>
+                    </div>
+                    <input type="radio" name="role" value="user" checked hidden>
+                    <input type="radio" name="isBanned" value="false" checked hidden>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mb-12">
+                    <input type="file" id="img" name="avatar" accept="image/*" value="/public/img/avatar/avatar-default.png">
 
                     </div>
-                    <div class="input-group form-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-key"></i></span>
-                        </div>
-                        <input type="password" class="form-control" placeholder="password" name="confirmPassword">
-                    </div>
-                    <div class="row align-items-center remember">
-                        <input type="radio" name="role" value="user" checked hidden>
-                    </div>
-                    <div>
-                        <p style="color:red"> <%= message%></p>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Register" class="btn btn-primaryfloat-right login_btn">
-                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Register" class="btn btn-primaryfloat-right login_btn">
+                </div>
                 </form>
             </div>
             <div class="card-footer">
                 <div class="d-flex justify-content-center links">
                     Have an account?<a href="/auth/login">Sign In</a>
-                </div>
-                <div class="d-flex justify-content-center">
-                    <a href="#">Forgot your password?</a>
                 </div>
             </div>
         </div>

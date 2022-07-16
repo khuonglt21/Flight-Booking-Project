@@ -1,3 +1,5 @@
 export declare const userController: {
-    checkConfirmPassword: (req: any, res: any) => Promise<void>;
+    registerUser: (req: any, res: any, next: any) => Promise<void>;
+    renderLogin: (req: any, res: any, next: any) => Promise<void>;
+    renderRegister: (req: any, res: any, next: any) => Promise<void>;
 };
