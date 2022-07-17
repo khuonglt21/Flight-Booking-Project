@@ -102,7 +102,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <fieldset>
-                                            <label for="from">From:</label>
+                                            <label for="from" class="search-field" >From:</label>
                                             <select required name='from' onchange='this.form.()'>
                                                 <% airports.forEach( airport => { %>
                                                     <option value="<%= airport.code %>"><%= airport.city %>
@@ -114,7 +114,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <fieldset>
-                                            <label for="to">To:</label>
+                                            <label for="to" class="search-field" >To:</label>
                                             <select required name='to' onchange='this.form.()'>
                                                 <% let selected = ""; airports.forEach( (airport, index)=> {
                                                     if (index === 2) {
@@ -134,12 +134,12 @@
                                         <div class="radio-select">
                                             <div class="row">
                                                 <div class="col-md-6 col-sm-6 col-xs-6">
-                                                    <label for="oneway">Oneway</label>
+                                                    <label for="oneway" class="search-field">Oneway</label>
                                                     <input type="radio" name="trip" id="oneway" value="one-way"
                                                            required="required" checked onchange='this.form.()'>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6 col-xs-6">
-                                                    <label for="round">Round</label>
+                                                    <label for="round" class="search-field">Round</label>
                                                     <input type="radio" name="trip" id="round" value="round"
                                                            required="required" onchange='this.form.()'>
                                                 </div>
@@ -149,7 +149,7 @@
 
                                     <div class="col-md-6">
                                         <fieldset>
-                                            <label for="to">Class:</label>
+                                            <label for="to" class="search-field" >Class:</label>
                                             <select required name='class' onchange='this.form.()'>
                                                 <% classNames.forEach( (className, index)=> { %>
                                                     <option value="<%= className.class %>"><%= className.class %>
@@ -160,7 +160,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <fieldset>
-                                            <label for="departure">Departure date:</label>
+                                            <label for="departure" class="search-field" >Departure date:</label>
                                             <input name="departure" type="text" class="form-control date" id="deparure"
                                                    placeholder="Select date..." required="" onchange='this.form.()'>
                                         </fieldset>
@@ -168,7 +168,7 @@
 
                                     <div class="col-md-6" id="return-date" style="visibility: hidden">
                                         <fieldset>
-                                            <label for="return">Return date:</label>
+                                            <label for="return" class="search-field" >Return date:</label>
                                             <input name="return" type="text" class="form-control date" id="return"
                                                    placeholder="Select date..." onchange='this.form.()'>
                                         </fieldset>
@@ -177,7 +177,7 @@
 
                                     <div class="col-md-12" id="return-date">
                                         <fieldset>
-                                            <label for="passengers">Passengers:</label>
+                                            <label for="passengers" class="search-field" >Passengers:</label>
 
 
                                         </fieldset>
