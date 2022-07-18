@@ -46,12 +46,12 @@ class ShowFlightController {
 
         let passengersSearch = totalPassenger.join("."); // tạo định dạng cho
         //
-
+        let user = req.user;
 
         console.log(passengersSearch)
 
         // return res.json(searchDetailFlight);
-        res.render('middle', {flightInfo: searchDetailFlight, passengersSearch})
+        res.render('middle', {flightInfo: searchDetailFlight, passengersSearch,user})
     };
 
     async showInfoFlight(req, res, next) {
@@ -71,11 +71,11 @@ class ShowFlightController {
                 {path: "typeID", select: "class"}
             ])
 
-
+        let user = req.user
         const options = {weekday: 'short', year: 'numeric', month: 'long', day: 'numeric'};
         options["timeZone"] = 'Asia/Bangkok';
         let date = fullDetailFlight[0].flightID["date"].toLocaleDateString('en-GB', options);
-        res.render('list-tickets', {flightInfo: fullDetailFlight, date: date, quantityPassenger: quantityPassenger});
+        res.render('list-tickets', {flightInfo: fullDetailFlight, date: date, quantityPassenger: quantityPassenger,user});
     }
 }
 

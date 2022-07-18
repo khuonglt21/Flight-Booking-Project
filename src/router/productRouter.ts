@@ -2,9 +2,11 @@ import express from "express";
 import flightDetailController from "../controllers/showFlightControllers";
 const router = express.Router();
 import productController from "../controllers/productController";
+import errorControllers from "../controllers/errorControllers";
 
 
 router.get('/booking', productController.showHome);
+
 router.get('/support',((req, res) => {
     res.render('demo')
 }))

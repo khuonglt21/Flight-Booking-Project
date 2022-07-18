@@ -72,11 +72,15 @@
                                 class="nav-link-icon text-800 me-1 fas fa-bolt"></span><span class="nav-link-text">Activities</span></a>
                 </li>
             </ul>
-            <form action="/auth/login" method="get">
-                <!--                <button class="btn text-800 order-1 order-lg-0 me-2" type="button">Support</button>-->
-                <button class="btn btn-voyage-outline order-0" type="submit"><span class="text-primary">Sign in</span>
-                </button>
-            </form>
+            <% if(user){%>
+                <span class="text-primary">Welcome! <%= user.firstName%></span>
+            <%}else{%>
+                <form action="/auth/login" method="get">
+                    <!--                <button class="btn text-800 order-1 order-lg-0 me-2" type="button">Support</button>-->
+                    <button class="btn btn-voyage-outline order-0" type="submit"><span class="text-primary">Sign in/Sign up</span>
+                    </button>
+                </form>
+            <%}%>
         </div>
     </div>
 </nav>
@@ -166,6 +170,23 @@
                         </p>
                         <p><%= quantityPassenger[0]%> Adult, <%= quantityPassenger[1]%> Child, <%= quantityPassenger[2]%> Infant, <%= flightInfo[0].typeID["class"][0].toUpperCase() + flightInfo[0].typeID["class"].slice(1) %> </p>
                     </div>
+                    <div class="tabs-content">
+                        <h4>Choose Your Direction:</h4>
+                        <ul class="social-links">
+                            <li><a href="https://www.facebook.com/groups/207964803013156/user/100002986066862">Find us on <em>Facebook</em><i class="fa fa-facebook"></i></a>
+                            </li>
+                            <li><a href="https://www.youtube.com/channel/UCfAm3w13QJvjxbX3zpc9vCg">Our <em>YouTube</em> Channel<i
+                                            class="fa fa-youtube"></i></a></li>
+                            <li><a href="http://instagram.com">Follow our <em>instagram</em><i
+                                            class="fa fa-instagram"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="page-direction-button">
+                        <a href="contact.html"><i class="fa fa-phone"></i>Contact Us Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 col-md-offset-1">
                 </div>
 
 

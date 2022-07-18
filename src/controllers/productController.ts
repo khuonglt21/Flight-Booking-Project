@@ -11,11 +11,11 @@ class ProductController {
     // [GET] /home/booking
     async showHome(req, res, next) {
         console.log(req.user)
+        let user = req.user;
         let airports = await airportModel.find({});
         let classNames = await classModel.find({});
-        return res.render('home', {airports, classNames})
+        return res.render('home', {airports, classNames, user})
     }
-
 
     // [GET] /home/flight?
     async searchFlight(req, res, next) {
@@ -60,7 +60,6 @@ class ProductController {
         return res.json(searchDetailFlight);
 
     }
-
 
     async bookingFlight(req, res, next) {
         const passengers = req.params.passengers;
@@ -191,7 +190,6 @@ class ProductController {
 
         return res.render("flight/paymentSuccess", {passengers, flightId, bookingCode});
     }
-
 
     // code above here
 }
