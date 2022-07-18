@@ -52,10 +52,15 @@
                 <li class="nav-item px-2"><a class="nav-link" href="#hotels"> <span class="nav-link-icon text-800 me-1 fas fa-hotel"></span><span class="nav-link-text">Hotels</span></a></li>
                 <li class="nav-item px-2"><a class="nav-link" href="#activities"><span class="nav-link-icon text-800 me-1 fas fa-bolt"></span><span class="nav-link-text">Activities</span></a></li>
             </ul>
-            <form action="/auth/login" method="get">
-                <!--                <button class="btn text-800 order-1 order-lg-0 me-2" type="button">Support</button>-->
-                <button class="btn btn-voyage-outline order-0" type="submit"><span class="text-primary">Sign in</span></button>
-            </form>
+            <% if(user){%>
+                <span class="text-primary">Welcome! <%= user.firstName%></span>
+            <%}else{%>
+                <form action="/auth/login" method="get">
+                    <!--                <button class="btn text-800 order-1 order-lg-0 me-2" type="button">Support</button>-->
+                    <button class="btn btn-voyage-outline order-0" type="submit"><span class="text-primary">Sign in/Sign up</span>
+                    </button>
+                </form>
+            <%}%>
         </div>
     </div>
 </nav>
