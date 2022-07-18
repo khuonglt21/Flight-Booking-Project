@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.app = void 0;
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const app_root_path_1 = __importDefault(require("app-root-path"));
@@ -22,6 +23,7 @@ dotenv_1.default.config();
 const db_1 = __importDefault(require("./src/config/db"));
 const userRouter_1 = __importDefault(require("./src/router/userRouter"));
 const app = (0, express_1.default)();
+exports.app = app;
 const PORT = process.env.PORT || 3000;
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
