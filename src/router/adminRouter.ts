@@ -1,5 +1,4 @@
 import express from "express";
-import User from "../schemas/User.model";
 import {adminController} from "../controllers/adminController";
 const router = express.Router();
 

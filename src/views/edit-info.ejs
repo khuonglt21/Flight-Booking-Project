@@ -10,11 +10,16 @@
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet"/>
     <link href="/public/css/styles.css" rel="stylesheet"/>
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <style>
+        .menu{
+            padding: 5px;
+        }
+    </style>
 </head>
 <body class="sb-nav-fixed">
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3" href="/home"><h1>ADMIN</h1></a>
+    <a class="navbar-brand ps-3" href="/home"><h1><%=user.role%></h1></a>
 
     <!-- Sidebar Toggle-->
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
@@ -34,11 +39,7 @@
                 <li>
                     <hr class="dropdown-divider"/>
                 </li>
-                <li>
-                    <form action="/logout" method="post">
-                        <button class="dropdown-item" type="submit">Logout</button>
-                    </form>
-                </li>
+                <li><a class="dropdown-item" href="/login">Logout</a></li>
             </ul>
         </li>
     </ul>
@@ -85,8 +86,8 @@
                             <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne"
                                  data-bs-parent="#sidenavAccordionPages">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="/auth/login">Login</a>
-                                    <a class="nav-link" href="/auth/register">Register</a>
+                                    <a class="nav-link" href="login.html">Login</a>
+                                    <a class="nav-link" href="register.html">Register</a>
                                     <a class="nav-link" href="password.html">Forgot Password</a>
                                 </nav>
                             </div>
@@ -112,7 +113,7 @@
             </div>
             <div class="sb-sidenav-footer">
                 <div class="small">Logged in as:</div>
-                Mr.<%= admin %>
+                Mr.<%= user.firstName %>
             </div>
         </nav>
     </div>
@@ -120,7 +121,7 @@
         <main id="main1">
             <!--            style="background-image: url('/views/assets/img/background2.jpg')"-->
             <div class="container-fluid px-4">
-                <h1 class="mt-4">LIST USERS</h1>
+                <h1 class="mt-4">INFO USER</h1>
 
                 <ol class="breadcrumb mb-4">
                     <!--                            <li class="breadcrumb-item active">Dashboard</li>-->
@@ -138,52 +139,29 @@
                     <div class="card-body">
                         <table id="datatablesSimple">
                             <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th>Avatar</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Email</th>
-                                <th>User</th>
-                                <th>Role</th>
-                                <th>Banned</th>
-                            </tr>
+
                             </thead>
-                            <tfoot>
-                            <tr>
-                                <th>STT</th>
-                                <th>Avatar</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Email</th>
-                                <th>User</th>
-                                <th>Role</th>
-                                <th>Banned</th>
-                            </tr>
-                            </tfoot>
                             <tbody>
-                            <% users.forEach((user, index)=>{ %>
-                                <tr>
-                                    <td><%= index + 1 %></td>
-                                    <%if(user.avatarUrl){%>
-                                    <td><img  src="<%= user.avatarUrl %>" alt="Avatar" style="width:40px;height:40px;border-radius: 50%;object-fit: cover"></td>
-                                        <%} else {%>
-                                        <td><img  src="/public/img/avatar/avatar-default.png" alt="Avatar" style="width:40px;height:40px;border-radius: 50%;object-fit: cover"></td>
-                                    <% }%>
-                                    <td><%= user.firstName %></td>
-                                    <td><%= user.lastName %></td>
-                                    <td><%= user.email %></td>
-                                    <td><%= user.username %></td>
-                                    <td><%= user.role %></td>
-                                    <% if(user.isBanned){ %>
-                                    <td><a href="/admin/banned?<%= user._id %>"
-                                           class="btn btn-danger"><%= user.isBanned %></a></td>
-                                    <% } else { %>
-                                    <td><a href="/admin/banned?<%= user._id %>"
-                                           class="btn btn-success"><%= user.isBanned %></a></td>
-                                    <%}%>
-                                </tr>
-                            <% }) %>
+                            <form action="/user/info" method="post" enctype="multipart/form-data">
+                                <div class="row">
+                                    <input type="text" value="<%=user._id%>" name="id" hidden>
+                                    <div class="col-6 menu">Upload Avatar</div>
+                                    <div class="col-6 menu"><input type="file" id="img" name="avatarUrl" accept="image/*"></div>
+                                    <div class="col-6 menu">First Name</div>
+                                    <div class="col-6 menu"><input type="text" name="firstName" value="<%= user.firstName %>"></div>
+                                    <div class="col-6 menu">Last Name</div>
+                                    <div class="col-6 menu"><input type="text" name="lastName" value="<%= user.lastName %>"></div>
+                                    <div class="col-6 menu">Email</div>
+                                    <div class="col-6 menu"><input type="text" name="email" value="<%= user.email %>"></div>
+                                    <div class="col-6 menu">Username</div>
+                                    <div class="col-6 menu"><input type="text" name="username" value="<%= user.username %>"></div>
+                                    <div class="col-6 menu">Password</div>
+                                    <div class="col-6 menu"><input type="password" name="password" value="<%= user.password %>"></div>
+                                    <div class="col-6 menu">Role</div>
+                                    <div class="col-6 menu"><input type="text" name="role" value="<%= user.role %>" disabled></div>
+                                    <div class="col-6 menu"><input type="submit" placeholder="Submit"></div>
+                                </div>
+                            </form>
                             </tbody>
                         </table>
                     </div>
@@ -212,6 +190,6 @@
 <script src="/public/js/admin/chart-area-demo.js"></script>
 <script src="/public/js/admin/chart-bar-demo.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-<script src="/public/js/admin/datatables-simple-demo.js"></script>
+<!--<script src="/public/js/admin/datatables-simple-demo.js"></script>-->
 </body>
 </html>

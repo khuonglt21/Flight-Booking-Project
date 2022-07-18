@@ -2,6 +2,7 @@ import express from "express";
 import flightDetailController from "../controllers/showFlightControllers";
 const router = express.Router();
 import productController from "../controllers/productController";
+import errorControllers from "../controllers/errorControllers";
 
 
 router.get('/booking', productController.showHome);
@@ -18,4 +19,8 @@ router.get('/flight',  flightDetailController.showDetailFlight);
 router.get("/booking-flight", productController.bookingFlight)
 
 router.get('/prebooking/:flightId-:passengers', flightDetailController.showInfoFlight);
+
+
+
+
 export default router
