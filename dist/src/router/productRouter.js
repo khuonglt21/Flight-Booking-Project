@@ -12,7 +12,10 @@ router.get('/support', ((req, res) => {
     res.render('demo');
 }));
 router.get('/flight', showFlightControllers_1.default.showDetailFlight);
-router.get("/booking-flight", productController_1.default.bookingFlight);
+router.get("/booking-flight/:flightId-:passengers", productController_1.default.bookingFlight);
 router.get('/prebooking/:flightId-:passengers', showFlightControllers_1.default.showInfoFlight);
+router.post('/payment', productController_1.default.paymentBooking);
+router.get('/payment/:flightId-:passengers', productController_1.default.getPaymentBooking);
+router.post('/confirm-payment/:flightId-:passengers', productController_1.default.confirmPayment);
 exports.default = router;
 //# sourceMappingURL=productRouter.js.map

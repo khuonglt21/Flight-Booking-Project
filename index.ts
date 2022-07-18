@@ -59,3 +59,5 @@ app.use(errorControllers.errorRender);
 app.listen(PORT, () => {
     console.log(`You are listening on port: ${PORT}`);
 });
+
+export {app}

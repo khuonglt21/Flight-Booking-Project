@@ -55,10 +55,10 @@ class ShowFlightController {
     };
 
     async showInfoFlight(req, res, next) {
-        console.log(req.params)
+        // console.log(req.params)
         const passengers = req.params.passengers;
         let quantityPassenger = passengers.split('.');
-        console.log(quantityPassenger);
+        // console.log(quantityPassenger);
         const searchFlight = {_id: req.params.flightId}
         let fullDetailFlight = await flightDetailModel.find(searchFlight)
             .populate([

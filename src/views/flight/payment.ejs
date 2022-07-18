@@ -91,37 +91,24 @@
         <div class="row">
             <div class="col-md-12 tabgroup">
                 <div class="submit-form">
-                    <h2>Your Booking</h2>
-                    <p>Fill in your details and review your booking.</p>
+                    <h2>Payment Your Booking</h2>
+                    <p>Fill in your payment method details to finish booking!</p>
                 </div>
             </div>
 
-            <div class="col-md-12 tabgroup" hidden>
-                <div class="submit-form ">
-                    <h2>Your Booking</h2>
-                    <p>Fill in your details and review your booking.</p>
-                </div>
-            </div>
             <div class="col-md-8 " id="form-all-data">
                 <form action="/home/payment" method="POST">
-                    <div class="submit-form tabgroup">
-                        <h2>Contact Details</h2>
-                    </div>
+
                     <!--                    <form action="/home/flight" method="GET">-->
 
-                    <section class="tabgroup" >
+                    <section class="tabgroup submit-form " >
                         <div>
                             <div class="submit-form">
                                 <div class="row">
-                                    <div class="col-md-11">
-                                        <h4>Contact Detail (for E-ticket/Voucher):</h4>
+                                    <div class="col-md-12">
+                                        <h4>Payment  (for E-ticket/Voucher):</h4>
                                     </div>
-                                    <div class="col-md-1">
-                                        <h4>
-                                            <span><a href="javascript:void(0)"
-                                                     onclick="saveForm('contact-details', this)">Save</a></span>
-                                        </h4>
-                                    </div>
+
                                 </div>
                                 <!--                            <form id="form-submit" action="/home/flight" method="GET">-->
                                 <div class="row form-data contact" id="contact-details">
@@ -174,266 +161,10 @@
                             </div>
                         </div>
                     </section>
-                    <div class="submit-form tabgroup">
-                        <h2>Traveler Details</h2>
-                    </div>
-
-                    <!-- forEach for Adult from here-->
-
-                    <% for (let i = 0; i < quantityPassenger[0]; i++) { %>
-
-                        <section class="tabgroup form-data adult" id="traveler-details-adult-<%= i %>">
-                            <div>
-                                <div class="submit-form">
-                                    <div class="row">
-                                        <div class="col-md-11">
-                                            <h4>Adult <%= i + 1 %></h4>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <h4>
-                                            <span><a href="javascript:void(0)"
-                                                     onclick="saveForm('traveler-details-adult-<%= i %>', this)">Save</a></span>
-                                            </h4>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-
-                                        <div class="col-md-6">
-                                            <fieldset>
-                                                <label class="bigger-font">Title:</label>
-
-                                                <select class="bigger-font" required name='titleAdult<%= i %>'>
-                                                    <!--onchange='this.form.()'-->
-                                                    <option value="Mr">Mr</option>
-                                                    <option value="Mrs">Mrs</option>
-                                                    <option value="Ms">Ms</option>
-                                                </select>
-                                            </fieldset>
-                                        </div>
-                                        <div class="col-md-6"></div>
-
-                                        <div class="col-md-6">
-                                            <fieldset>
-                                                <label class="bigger-font" for="lastName">Last Name(e.g. Nguyen):</label>
-                                                <input name="lastNameAdult<%= i %>" type="text"
-                                                       class="form-control text bigger-font"
-                                                       id="lastName"
-                                                       placeholder="Last name..." required
-                                                       onchange='/*this.form.()*/'>
-                                            </fieldset>
-                                            <p><small>(without title and punctuation)</small></p>
-                                        </div>
-
-
-                                        <div class="col-md-6">
-                                            <fieldset>
-                                                <label class="bigger-font" for="firstName">Middle & First Name(e.g. Thi Ngoc
-                                                    Anh):</label>
-                                                <input name="firstNameAdult<%= i %>" type="text"
-                                                       class="form-control text bigger-font"
-                                                       id="firstName"
-                                                       placeholder="First name..." required
-                                                       onchange='/*this.form.()*/'>
-                                            </fieldset>
-                                            <p><small>(without title and punctuation)</small></p>
-                                        </div>
-
-
-                                        <div class="col-md-6">
-                                            <fieldset>
-                                                <label class="bigger-font" for="dob">Date of Birth:</label>
-                                                <input name="dobAdult<%= i %>" type="date" class="form-control text bigger-font"
-                                                       id="dob"
-                                                       placeholder="1910-01-01" required onchange='/*this.form.()*/'
-                                                       min='1910-01-01' max='2010-01-01'>
-                                            </fieldset>
-                                            <p><small>Adult Passenger (Age 12 and older)</small></p>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <fieldset>
-                                                <label class="bigger-font" for="nationality">Nationality:</label>
-                                                <input name="nationalityAdult<%= i %>" type="text"
-                                                       class="form-control text bigger-font"
-                                                       id="nationality"
-                                                       placeholder="Nationality..." required
-                                                       onchange='/*this.form.()*/'>
-                                            </fieldset>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                    <% } %>
 
                     <!-- forEach for Child from here-->
 
-                    <% for (let i = 0; i < quantityPassenger[1]; i++) { %>
-                        <section id="child-details-<%= i %>" class="tabgroup form-data child">
-                            <div>
-                                <div class="submit-form">
-                                    <div class="row">
-                                        <div class="col-md-11">
-                                            <h4>Child <%= i + 1 %></h4>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <h4>
-                                            <span><a href="javascript:void(0)"
-                                                     onclick="saveForm('child-details-<%= i %>', this)">Save</a></span>
-                                            </h4>
-                                        </div>
-                                    </div>
-                                    <div class="row">
 
-                                        <div class="col-md-6">
-                                            <fieldset>
-                                                <label class="bigger-font">Title:</label>
-                                                <select class="bigger-font" required name='titleChild<%= i %>'>
-                                                    <!--onchange='this.form.()'-->
-                                                    <option value="Mr">Mr</option>
-                                                    <option value="Ms">Ms</option>
-                                                </select>
-                                            </fieldset>
-                                        </div>
-                                        <div class="col-md-6"></div>
-
-                                        <div class="col-md-6">
-                                            <fieldset>
-                                                <label class="bigger-font" for="lastName">Last Name(e.g. Nguyen):</label>
-                                                <input name="lastNameChild<%= i %>" type="text"
-                                                       class="form-control text bigger-font"
-                                                       id="lastName"
-                                                       placeholder="Last name..." required
-                                                       onchange='/*this.form.()*/'>
-                                            </fieldset>
-                                            <p><small>(without title and punctuation)</small></p>
-                                        </div>
-
-
-                                        <div class="col-md-6">
-                                            <fieldset>
-                                                <label class="bigger-font" for="firstName">Middle & First Name(e.g. Thi Ngoc
-                                                    Anh):</label>
-                                                <input name="firstNameChild<%= i %>" type="text"
-                                                       class="form-control text bigger-font"
-                                                       id="firstName"
-                                                       placeholder="First name..." required
-                                                       onchange='/*this.form.()*/'>
-                                            </fieldset>
-                                            <p><small>(without title and punctuation)</small></p>
-                                        </div>
-
-
-                                        <div class="col-md-6">
-                                            <fieldset>
-                                                <label class="bigger-font" for="dob">Date of Birth:</label>
-                                                <input name="dobChild<%= i %>" type="date" class="form-control text bigger-font"
-                                                       id="dob"
-                                                       placeholder="1910-01-01" required onchange='/*this.form.()*/'
-                                                       min='2010-01-01' max='2020-01-01'>
-                                            </fieldset>
-                                            <p><small>Child Passenger (Age 2 - 11)</small></p>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <fieldset>
-                                                <label class="bigger-font" for="nationality">Nationality:</label>
-                                                <input name="nationalityChild<%= i %>" type="text"
-                                                       class="form-control text bigger-font"
-                                                       id="nationality"
-                                                       placeholder="Nationality..." required
-                                                       onchange='/*this.form.()*/'>
-                                            </fieldset>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-
-                    <% } %>
-                    <!--End forEach-->
-                    <!-- forEach for Infant from here-->
-                    <% for (let i = 0; i < quantityPassenger[2]; i++) { %>
-
-
-                        <section id="infant-details-<%= i %>" class="tabgroup form-data infant">
-                            <div>
-                                <div class="submit-form">
-                                    <div class="row">
-                                        <div class="col-md-11">
-                                            <h4>Infant <%= i + 1 %></h4>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <h4>
-                                            <span><a href="javascript:void(0)"
-                                                     onclick="saveForm('infant-details-<%= i %>', this)">Save</a></span>
-                                            </h4>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-
-                                        <div class="col-md-6">
-                                            <fieldset>
-                                                <label  for="titleInfant<%= i %>" class="bigger-font">Title:</label>
-                                                <select required name='titleInfant<%=i%>'> <!--onchange='this.form.()'-->
-                                                    <option value="Mr">Mr</option>
-                                                    <option value="Ms">Ms</option>
-                                                </select>
-                                            </fieldset>
-                                        </div>
-                                        <div class="col-md-6"></div>
-
-                                        <div class="col-md-6">
-                                            <fieldset>
-                                                <label class="bigger-font" for="lastName">Last Name(e.g. Nguyen):</label>
-                                                <input name="lastNameInfant<%= i %>" type="text"
-                                                       class="form-control text bigger-font" id="lastName"
-                                                       placeholder="Last name..." required
-                                                       onchange='/*this.form.()*/'>
-                                            </fieldset>
-                                            <p><small>(without title and punctuation)</small></p>
-                                        </div>
-
-
-                                        <div class="col-md-6">
-                                            <fieldset>
-                                                <label class="bigger-font" for="firstName">Middle & First Name(e.g. Thi Ngoc
-                                                    Anh):</label>
-                                                <input name="firstNameInfant<%= i %>" type="text"
-                                                       class="form-control text bigger-font" id="firstName"
-                                                       placeholder="First name..." required
-                                                       onchange='/*this.form.()*/'>
-                                            </fieldset>
-                                            <p><small>(without title and punctuation)</small></p>
-                                        </div>
-
-
-                                        <div class="col-md-6">
-                                            <fieldset>
-                                                <label class="bigger-font" for="dob">Date of Birth:</label>
-                                                <input name="dobInfant<%= i %>" type="date"
-                                                       class="form-control text bigger-font"
-                                                       id="dob"
-                                                       placeholder="1910-01-01" required onchange='/*this.form.()*/'
-                                                       min='2020-01-01' max='2022-01-01'>
-                                            </fieldset>
-                                            <p><small>Infant Passenger (Below age 2)</small></p>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <fieldset>
-                                                <label class="bigger-font" for="nationality">Nationality:</label>
-                                                <input name="nationalityInfant<%= i %>" type="text"
-                                                       class="form-control text bigger-font"
-                                                       placeholder="Nationality..." required
-                                                       onchange='/*this.form.()*/'>
-                                            </fieldset>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                    <% } %>
                     <!--                    </form>-->
 
                     <!--End forEach-->
@@ -443,7 +174,7 @@
                             <div class="col-md-6"></div>
                             <div class="col-md-6">
                                 <fieldset>
-                                    <button type="button"  class="btn" onclick="sendForm('<%- flightId%>','<%-passengers%>')">Continue</button>
+                                    <button type="button"  class="btn" onclick="confirmPayment('<%- flightId%>','<%-passengers%>')">Continue</button>
 
 <!--                                    <button type="submit" id="&lt;!&ndash;form-submit&ndash;&gt;" style="margin-top: 0px" class="btn">-->
 <!--                                        Continue-->
@@ -485,7 +216,8 @@
                                 <div class="col-md-12">
                                     <fieldset>
                                         <h5 class="bigger-font" ><em>Departure - <%= date %></em></h5>
-
+                                        <p><%= quantityPassenger[0]%> Adult, <%= quantityPassenger[1]%> Child, <%= quantityPassenger[2]%> Infant, <%= flightInfo[0].typeID["class"][0].toUpperCase() + flightInfo[0].typeID["class"].slice(1) %> </p>
+                                        <p>Total Payment: <%=totalPayment.toLocaleString('vi-VN') %> VND</p>
                                     </fieldset>
                                 </div>
 
