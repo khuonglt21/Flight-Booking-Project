@@ -5,6 +5,7 @@ import appRoot from "app-root-path";
 import {logger} from "./src/logger/winston";
 import passport from "./src/middleware/passport"
 import errorControllers from "./src/controllers/errorControllers";
+
 const appRootPath = appRoot.path;
 import path from "path";
 import authRouter from "./src/router/authRouter"
@@ -15,8 +16,10 @@ import adminRouter from "./src/router/adminRouter";
 import {admin} from "./src/middleware/admin";
 import dotenv from "dotenv";
 import createFlightRouter from "./src/router/createFlight.router";
+
 dotenv.config();
 import connectDB from "./src/config/db";
+import userRouter from "./src/router/userRouter";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -48,12 +51,25 @@ app.use(passport.session());
 app.use('/auth', authRouter);
 app.use('/home', productRouter);//get in home page
 app.use('/flight', createFlightRouter);//get in home page
-app.use('/admin',auth.checkAuth,admin.checkAdmin,adminRouter);
-app.use('/user',auth.checkAuth)
+app.use('/admin', auth.checkAuth, admin.checkAdmin, adminRouter);
+app.use('/user', auth.checkAuth, userRouter);
+
+
+app.post('/logout', function (req, res, next) {
+    req.logout(function (err) {
+        if (err) {
+            return next(err);
+        }
+        res.redirect('/home/booking');
+    });
+});
 
 // connect DB
 connectDB();
 
+app.use((req, res, next) => {
+    next('err');
+})
 app.use(errorControllers.errorRender);
 
 app.listen(PORT, () => {

@@ -20,6 +20,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const createFlight_router_1 = __importDefault(require("./src/router/createFlight.router"));
 dotenv_1.default.config();
 const db_1 = __importDefault(require("./src/config/db"));
+const userRouter_1 = __importDefault(require("./src/router/userRouter"));
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 3000;
 app.use(body_parser_1.default.json());
@@ -39,8 +40,19 @@ app.use('/auth', authRouter_1.default);
 app.use('/home', productRouter_1.default);
 app.use('/flight', createFlight_router_1.default);
 app.use('/admin', auth_1.default.checkAuth, admin_1.admin.checkAdmin, adminRouter_1.default);
-app.use('/user', auth_1.default.checkAuth);
+app.use('/user', auth_1.default.checkAuth, userRouter_1.default);
+app.post('/logout', function (req, res, next) {
+    req.logout(function (err) {
+        if (err) {
+            return next(err);
+        }
+        res.redirect('/home/booking');
+    });
+});
 (0, db_1.default)();
+app.use((req, res, next) => {
+    next('err');
+});
 app.use(errorControllers_1.default.errorRender);
 app.listen(PORT, () => {
     console.log(`You are listening on port: ${PORT}`);

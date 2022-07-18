@@ -10,17 +10,24 @@ class ProductController {
     // [GET] /home/booking
     async showHome(req, res, next) {
         console.log(req.user)
+        let user = req.user;
         let airports = await airportModel.find({});
         let classNames = await classModel.find({});
-        return res.render('home', {airports, classNames})
+        return res.render('home', {airports, classNames, user})
     }
-
 
     // [GET] /home/flight?
     async searchFlight(req, res, next) {
         console.log(req.query);
         // Thực hiện tìm kiếm chuyến bay theo dữ liệu đầu vào
-        const {from: departureSearch, to: arrivalSearch, class: className, departure: departDate, passengers : totalPassenger, ...rest} = req.query
+        const {
+            from: departureSearch,
+            to: arrivalSearch,
+            class: className,
+            departure: departDate,
+            passengers: totalPassenger,
+            ...rest
+        } = req.query
         let dateSplit = departDate.split("/"); // tách ra để format lại date input từ dạng mm/dd/yyyy về dạng yyyy-mm-dd , để đưa vào new Date() k bị lỗi
         const passengers = parseInt(totalPassenger[0]) + parseInt(totalPassenger[1])
         console.log(passengers)
@@ -58,14 +65,12 @@ class ProductController {
 
     }
 
-
     async bookingFlight(req, res, next) {
         // return res.json("hello")
         return res.render("flight/passenger")
 
 
     }
-
 
     // code above here
 }
