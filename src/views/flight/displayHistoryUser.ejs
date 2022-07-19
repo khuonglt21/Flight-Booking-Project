@@ -10,18 +10,13 @@
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet"/>
     <link href="/public/css/styles.css" rel="stylesheet"/>
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-    <style>
-        .menu{
-            padding: 5px;
-        }
-    </style>
 </head>
 <body class="sb-nav-fixed">
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <!-- Navbar Brand-->
     <a class="navbar-brand ps-3" href="/home/booking"><img class="d-inline-block"
-                                                           src="/public/img/logo.png" style="width: 100%; height: 100%;"
-                                                           alt="logo"/></a>
+                                                                          src="/public/img/logo.png" style="width: 100%; height: 100%;"
+                                                                          alt="logo"/></a>
 
     <!-- Sidebar Toggle-->
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
@@ -29,20 +24,22 @@
 
     <div class="input-group">
     </div>
-
+    <!--            </form>-->
+    <!-- Navbar-->
     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
                aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#!">Settings</a></li>
-                <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                <li><a class="dropdown-item" href="/home/booking">Home</a></li>
                 <li>
                     <hr class="dropdown-divider"/>
                 </li>
                 <li>
-                    <form action="/logout" method="post"><button class="dropdown-item" href="/login">Logout</button></form>
-                    </li>
+                    <form action="/logout" method="post">
+                        <button class="dropdown-item" type="submit">Logout</button>
+                    </form>
+                </li>
             </ul>
         </li>
     </ul>
@@ -89,9 +86,8 @@
                             <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne"
                                  data-bs-parent="#sidenavAccordionPages">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="login.html">Login</a>
-                                    <a class="nav-link" href="register.html">Register</a>
-                                    <a class="nav-link" href="password.html">Forgot Password</a>
+                                    <a class="nav-link" href="/auth/login">Login</a>
+                                    <a class="nav-link" href="/auth/register">Register</a>
                                 </nav>
                             </div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
@@ -116,7 +112,7 @@
             </div>
             <div class="sb-sidenav-footer">
                 <div class="small">Logged in as:</div>
-                Mr.<%= user.firstName %>
+                <%=user.username %>
             </div>
         </nav>
     </div>
@@ -124,13 +120,8 @@
         <main id="main1">
             <!--            style="background-image: url('/views/assets/img/background2.jpg')"-->
             <div class="container-fluid px-4">
-                <div class="mt-4"> <a href="/user/info" style="text-decoration:none">
-                <span><img
-                            src="<%=user.avatarUrl%>" style="width:40px;height:40px;border-radius: 50%;object-fit: cover"
-                    /></span>
-                        <span class="text-primary"> <%= user.firstName%></span>
-                    </a>
-                </div>
+                <h1 class="mt-4">Buy History</h1>
+
                 <ol class="breadcrumb mb-4">
                     <!--                            <li class="breadcrumb-item active">Dashboard</li>-->
                 </ol>
@@ -147,29 +138,38 @@
                     <div class="card-body">
                         <table id="datatablesSimple">
                             <thead>
-
+                            <tr>
+                                <th>Name</th>
+                                <th>Booking Code</th>
+                                <th>Quantity Ticket</th>
+                                <th>Airline</th>
+                                <th>STD</th>
+                                <th>Departure Place</th>
+                                <th>Arrival Place</th>
+                            </tr>
                             </thead>
+                            <tfoot>
+                            <tr>
+                                <th>Name</th>
+                                <th>Booking Code</th>
+                                <th>Quantity Ticket</th>
+                                <th>Airline</th>
+                                <th>STD</th>
+                                <th>Departure Place</th>
+                                <th>Arrival Place</th>
+                            </tr>
+                            </tfoot>
                             <tbody>
-                            <form action="/user/info" method="post" enctype="multipart/form-data">
-                                <div class="row">
-                                    <input type="text" value="<%=user._id%>" name="id" hidden>
-                                    <div class="col-6 menu">Upload Avatar</div>
-                                    <div class="col-6 menu"><input type="file" id="img" name="avatarUrl" accept="image/*"></div>
-                                    <div class="col-6 menu">First Name</div>
-                                    <div class="col-6 menu"><input type="text" name="firstName" value="<%= user.firstName %>"></div>
-                                    <div class="col-6 menu">Last Name</div>
-                                    <div class="col-6 menu"><input type="text" name="lastName" value="<%= user.lastName %>"></div>
-                                    <div class="col-6 menu">Email</div>
-                                    <div class="col-6 menu"><input type="text" name="email" value="<%= user.email %>"></div>
-                                    <div class="col-6 menu">Username</div>
-                                    <div class="col-6 menu"><input type="text" name="username" value="<%= user.username %>"></div>
-                                    <div class="col-6 menu">Password</div>
-                                    <div class="col-6 menu"><input type="password" name="password" value="<%= user.password %>"></div>
-                                    <div class="col-6 menu">Role</div>
-                                    <div class="col-6 menu"><input type="text" name="role" value="<%= user.role %>" disabled></div>
-                                    <div class="col-6 menu"><input type="submit" placeholder="Submit"></div>
-                                </div>
-                            </form>
+                            <tr>
+                                <td><%= user.username%></td>
+                                <td><%= user.bookingCode%></td>
+                                <td><%= user.quantityTicket%></td>
+                                <td><%= user.airlines%></td>
+                                <td><%= user.STD%></td>
+                                <td><%= user.departurePlace%></td>
+                                <td><%= user.arrivalPlace%></td>
+                            </tr>
+
                             </tbody>
                         </table>
                     </div>
@@ -198,6 +198,6 @@
 <script src="/public/js/admin/chart-area-demo.js"></script>
 <script src="/public/js/admin/chart-bar-demo.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-<!--<script src="/public/js/admin/datatables-simple-demo.js"></script>-->
+<script src="/public/js/admin/datatables-simple-demo.js"></script>
 </body>
 </html>

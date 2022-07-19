@@ -163,9 +163,10 @@ p {
 }
 
 .banner2 {
-	background-image: url(../img/weather-bg.jpg);
+	background-image: url(../img/banner-bg3.jpg);
+	background-repeat: repeat;
 	/*background-repeat: no-repeat;*/
-	/*background-size: cover;*/
+	background-size: 150px;
 	/*background-position: center center;*/
 
 	text-align: center;

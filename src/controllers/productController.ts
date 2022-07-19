@@ -92,14 +92,15 @@ class ProductController {
         const bookingCode = nanoid(8).toUpperCase();
         const flightDetail = {flightInfo: fullDetailFlight, date, quantityPassenger, passengers, flightId, bookingCode};
         app.set("flightDetail", flightDetail);
-
+        let user = req.user
 
         return res.render("flight/passenger", {
             flightInfo: fullDetailFlight,
             date: date,
             quantityPassenger: quantityPassenger,
             passengers,
-            flightId
+            flightId,
+            user
         })
 
 
