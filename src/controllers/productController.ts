@@ -176,19 +176,6 @@ class ProductController {
         }*/
         // if payment sucessfull
 
-        
-
-
-
-
-
-
-
-
-
-
-
-
         return res.render("flight/paymentSuccess", {passengers, flightId, bookingCode});
     }
 
