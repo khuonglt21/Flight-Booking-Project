@@ -4,13 +4,23 @@ import flightModel from "../schemas/Flight.model";
 import flightDetailModel from "../schemas/FlightDetail.model";
 import {app} from "../../index";
 import nanoid from "nanoid"; // must using nanoid @2.1.9
+import QRCode from "qrcode";
+
+import {ticketModel} from "../schemas/Ticket.model";
+import {passengerModel} from "../schemas/Passenger.model";
+import {contactModel} from "../schemas/Contact.model";
+import {ticketHistoryModel} from "../schemas/TicketHistory.model";
+
+const axios = require('axios').default;
+
+
 class ProductController {
     constructor() {
     }
 
     // [GET] /home/booking
     async showHome(req, res, next) {
-        console.log(req.user)
+        // console.log(req.user)
         let user = req.user;
         let airports = await airportModel.find({});
         let classNames = await classModel.find({});
@@ -19,7 +29,7 @@ class ProductController {
 
     // [GET] /home/flight?
     async searchFlight(req, res, next) {
-        console.log(req.query);
+        // console.log(req.query);
         // Thực hiện tìm kiếm chuyến bay theo dữ liệu đầu vào
         const {
             from: departureSearch,
@@ -31,7 +41,7 @@ class ProductController {
         } = req.query
         let dateSplit = departDate.split("/"); // tách ra để format lại date input từ dạng mm/dd/yyyy về dạng yyyy-mm-dd , để đưa vào new Date() k bị lỗi
         const passengers = parseInt(totalPassenger[0]) + parseInt(totalPassenger[1])
-        console.log(passengers)
+        // console.log(passengers)
         const dateSearch = (new Date(`${dateSplit[2]}-${dateSplit[0]}-${dateSplit[1]}`)).getTime();
 
         const searchFlight = {remainingSeats: {$gt: passengers}}
@@ -61,6 +71,7 @@ class ProductController {
 
     }
 
+    //[GET] home/booking-
     async bookingFlight(req, res, next) {
         const passengers = req.params.passengers;
         const flightId = req.params.flightId;
@@ -88,7 +99,6 @@ class ProductController {
         // res.render('list-tickets', {flightInfo: fullDetailFlight, date: date, quantityPassenger: quantityPassenger});
 
 
-
         const bookingCode = nanoid(8).toUpperCase();
         const flightDetail = {flightInfo: fullDetailFlight, date, quantityPassenger, passengers, flightId, bookingCode};
         app.set("flightDetail", flightDetail);
@@ -109,7 +119,6 @@ class ProductController {
     async paymentBooking(req, res, next) {
         let bookingData = req.body;
 
-
         app.set("bookingData", req.body)
         return res.json(req.body);
     }
@@ -123,8 +132,19 @@ class ProductController {
         let flightDetail = app.get("flightDetail") || {};
         let {flightInfo, date, quantityPassenger, passengers, flightId, bookingCode} = flightDetail;
 
-        //create booking code
+        // check if payment oke
 
+        const paymentStatus = (await ticketModel.findOne({bookingCode}, {isPurchased: 1}) || {}).isPurchased;
+        // nếu đã thanh toán thành công thì không cho trở về trang này
+        // console.log({paymentStatus})
+        if (paymentStatus) {
+            return res.redirect(`/home/payment-success?code=${bookingCode}`);
+        }
+
+
+        //
+
+        //create booking code
 
         let allBookingData = {flightDetail, bookingData, totalPayment: undefined};
 
@@ -136,9 +156,11 @@ class ProductController {
         totalPayment += quantityPassenger[1] * (price * 0.9); // for child
         totalPayment += quantityPassenger[1] * 110000; // for infant
 
+
         allBookingData.totalPayment = totalPayment;
         // save allBokingData
         app.set("allBookingData", allBookingData);
+        // return res.json(bookingData);
 
         return res.render("flight/payment2", {
             flightInfo,
@@ -149,13 +171,13 @@ class ProductController {
             totalPayment,
             bookingCode
         })
-        return res.json(bookingData);
     }
 
     //[POST] /home/confirm-payment
     async confirmPayment(req, res, next) {
         let allBookingData = app.get("allBookingData") || {};
         let bookingData = allBookingData.bookingData || {};
+        let flightDetail = allBookingData.flightDetail || {};
         // console.log(req.params)
         // console.log(bookingData.flightId !== req.params.flightId || bookingData.paxQuantity !== req.params.passengers)
         if (bookingData.flightId !== req.params.flightId || bookingData.paxQuantity !== req.params.passengers) {
@@ -166,18 +188,286 @@ class ProductController {
 
         // random payment true or false
         let paymentResult = Math.random() < 0.5;
-        console.log(paymentResult)
-
+        // console.log(paymentResult)
         let {passengers, flightId, bookingCode} = allBookingData.flightDetail;
-        // if payment failure - payment again
-     /*   if (!paymentResult) {
+
+        if (!paymentResult) {
             return res.render("flight/paymentFailure", {passengers, flightId});
-        }*/
-        // if payment sucessfull
-
-        
+        }
+        // if payment sucessfully
 
 
+        // return res.json(req.user)
+        let paxData = bookingData.paxData || {};
+        let flightInfo = flightDetail.flightInfo[0] || {};
+        let userInfo = req.user || {_id: "62d3d8de48afb485d809212e"};
+        let paymentMethod = req.body.paymentMethod || "Card"
+
+        try {
+            const listWorks = [];
+            // 1: create contact model
+            let {
+                contactFirstName: firstName,
+                contactLastName: lastName,
+                contactPhoneNumber: phone,
+                contactEmail: email
+            } = paxData.contact[0];
+
+            let newContact = new contactModel({
+                firstName,
+                lastName,
+                phone,
+                email,
+                paymentMethod
+            });
+            const contact = newContact.save();
+            listWorks.push(contact);
+
+            // 2, 3: create passenger and ticket model
+            // create adult model
+            paxData.adult.forEach((adultInfor, index) => {
+                let paxType = "Adult";
+                let title = adultInfor[`titleAdult${index}`];
+                let firstName = adultInfor[`firstNameAdult${index}`];
+                let lastName = adultInfor[`lastNameAdult${index}`];
+                let birthDay = adultInfor[`dobAdult${index}`];
+                let nationality = adultInfor[`nationalityAdult${index}`];
+                // create adult model
+                let newAdult = new passengerModel({
+                    paxType,
+                    title,
+                    firstName,
+                    lastName,
+                    birthDay,
+                    nationality
+                });
+                // create ticket model
+                let newTicket = new ticketModel({
+                    flightID: flightInfo._id,
+                    passengerID: newAdult._id,
+                    contactID: newContact._id,
+                    isPurchased: paymentResult,
+                    bookingCode: flightDetail.bookingCode
+                });
+
+                listWorks[`adult${index}`] = newAdult.save();
+                listWorks[`ticketAdult${index}`] = newTicket.save();
+
+            });
+
+            // create child model
+            paxData.child.forEach((childInfor, index) => {
+                let paxType = "Child";
+                let title = childInfor[`titleChild${index}`];
+                let firstName = childInfor[`firstNameChild${index}`];
+                let lastName = childInfor[`lastNameChild${index}`];
+                let birthDay = childInfor[`dobChild${index}`];
+                let nationality = childInfor[`nationalityChild${index}`];
+                // create child model
+                let newChild = new passengerModel({
+                    paxType,
+                    title,
+                    firstName,
+                    lastName,
+                    birthDay,
+                    nationality
+                });
+                // create ticket model
+                let newTicket = new ticketModel({
+                    flightID: flightInfo._id,
+                    passengerID: newChild._id,
+                    contactID: newContact._id,
+                    isPurchased: paymentResult,
+                    bookingCode: flightDetail.bookingCode
+                });
+
+                listWorks[`child${index}`] = newChild.save();
+                listWorks[`ticketChild${index}`] = newTicket.save();
+            });
+
+            // create infant model
+            paxData.infant.forEach((infantInfor, index) => {
+                let paxType = "Infant";
+                let title = infantInfor[`titleInfant${index}`];
+                let firstName = infantInfor[`firstNameInfant${index}`];
+                let lastName = infantInfor[`lastNameInfant${index}`];
+                let birthDay = infantInfor[`dobInfant${index}`];
+                let nationality = infantInfor[`nationalityInfant${index}`];
+                // Create infant model
+                let newInfant = new passengerModel({
+                    paxType,
+                    title,
+                    firstName,
+                    lastName,
+                    birthDay,
+                    nationality
+                });
+                // create ticket model
+                let newTicket = new ticketModel({
+                    flightID: flightInfo._id,
+                    passengerID: newInfant._id,
+                    contactID: newContact._id,
+                    isPurchased: paymentResult,
+                    bookingCode: flightDetail.bookingCode
+                });
+
+                listWorks[`infant${index}`] = newInfant.save();
+                listWorks[`ticketInfant${index}`] = newTicket.save();
+            });
+            // 4: create ticket history model
+
+            let newTicketHistory = new ticketHistoryModel({
+                bookingCode: flightDetail.bookingCode,
+                userId: userInfo._id
+            });
+            let ticketHistory = newTicketHistory.save()
+            listWorks.push(ticketHistory);
+
+            // 5: Promise all model
+            const result = await Promise.all(listWorks);
+
+            if (result[result.length - 1]) {
+                console.log("Save sucessfully");
+
+
+            } else {
+                next({code: 500, message: "Save data failure, contact to admin for details!"});
+            }
+
+        } catch (err) {
+            err.code = 500;
+            console.log(err.message);
+            return next(err)
+        }
+
+        // Render e ticket fo passenger
+        // finding all ticket by bookingCode
+
+        // const allTicket = await ticketModel.find({bookingCode : flightDetail.bookingCode}).populate([
+        //     {path: "flightID"},
+        //     {path: "passengerID"},
+        //     {path: "contactID"}
+        //    ]);
+
+        // let ticket = await ticketModel.find({bookingCode : flightDetail.bookingCode}).populate([
+        //     {path: "passengerID"}
+        // ]);
+        // return res.json(ticket);
+
+
+        /*   try {
+               let code : String = await flightDetail.bookingCode;
+
+               // Lỗi không lấy được hết thông tin chuyến bay
+
+
+               let apiUrl = 'http://localhost:3000/home/payment-success?code=' + code;
+               // let apiUrl = 'http://localhost:3000/home/payment-success?code=' + "PPJB8KGZ";
+               console.log(apiUrl)
+               const response = await axios.get(apiUrl);
+               const response2 = await axios.get(apiUrl);
+               // const response = await axios.get('http://localhost:3000/home/payment-success?code=F6UKRBZ8');
+               console.log(response2.data);
+               return res.json(response2.data);
+           } catch (err) {
+               console.log(err.message);
+           }*/
+
+        // if payment failure - payment again
+
+
+        let code: String = await flightDetail.bookingCode;
+        await setTimeout(async () => {
+            // let ticket = await ticketModel.find({bookingCode: flightDetail.bookingCode}).populate([
+            //     {path: "passengerID"}
+            // ]);
+            // return res.json(ticket);
+            return res.redirect(`/home/payment-success?code=${code}`)
+        }, 500);
+
+        /*
+
+
+        return res.send(`<script>
+                            setTimeout(()=> {
+                                location.href = "/home/payment-success?code=${code}"
+                            }, 10)
+                        
+                        </script>
+                        <a href="../../home/payment-success?code=${code}">Show ticket</a>`)
+        return res.redirect('/home/payment-success?code=' + code);
+
+        // Show save as pdf
+        // Show print button
+        // Send e-ticket to email*/
+        // return res.render("flight/paymentSuccess", {passengers, flightId, bookingCode});
+    }
+
+    async paymentSuccess(req, res, next) {
+        const bookingCode = req.query.code;
+        let allBookingData = app.get("allBookingData") || {};
+        let flightDetail = allBookingData.flightDetail || {};
+        let bookingData = allBookingData.bookingData || {};
+        let {passengers, flightId, bookingCode : code} = flightDetail;
+
+        // let code: String = await flightDetail.bookingCode;
+
+
+        if (!code || code !== bookingCode) {
+            return next({code: 401, message: "This is not your booking code"})
+        }
+
+        try {
+            // let ticket = await ticketModel.find({bookingCode}).populate([
+            //         {path: "passengerID"}
+            //     ])
+            // ;
+            const allTicket = await ticketModel.find({bookingCode : flightDetail.bookingCode}).populate([
+                {path: "passengerID"},
+                {path: "contactID"}
+               ]);
+            // return res.json(allTicket);
+            // console.log(ticket)
+
+            let flightInfo = (flightDetail.flightInfo || [])[0] || {};
+
+            let flight = flightInfo.flightID || {};
+            let departure = flight.departure || {} ;
+            let arrival = flight.arrival || {} ;
+
+            let {flightCode, airline, type, STA, STD,  date} = flight;
+            let paxData = bookingData.paxData || {};
+            let contact = paxData.contact || {};
+            let adult = paxData.adult || {};
+            let child = paxData.child || {};
+            let infant = paxData.infant || {};
+
+
+
+            let qr= await QRCode.toDataURL(bookingCode);
+            // console.log(qr);
+            let qrSrc = qr;
+            let data = {passengers, flightCode, airline, type, STA, STD,
+                date, departure, arrival,contact,adult, child, infant, bookingCode ,flightId , qrSrc}
+            // return res.json(data)
+            return res.render("flight/paymentSuccess",data);
+            /*
+
+            let
+            * 1. hãng
+            1.1 flightCode
+            * 2. bookingCdoe
+            * 2 Ngày bay
+            * 3. STD
+            * 4. STA,
+            5. departure
+            * 6. arrival
+            * 7. adult[]
+            * 8. child[]
+            * 9. infant[]
+            * */
+
+            // let
 
 
 
@@ -188,7 +478,12 @@ class ProductController {
 
 
 
-        return res.render("flight/paymentSuccess", {passengers, flightId, bookingCode});
+
+        } catch (e) {
+            console.log(e.message)
+        }
+
+
     }
 
     // code above here

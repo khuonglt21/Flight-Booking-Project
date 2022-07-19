@@ -96,27 +96,316 @@
 
 <!--Body under here-->
 
+<!--Setup js pdf-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<section class="banner">
-    <div class="container">
+
+
+<!--Ensetup-->
+
+
+<section class="banner" >
+    <div class="container" id="ticket-detail">
         <div class="row">
-            <div class="col-md-12 tabgroup">
+            <div class="col-md-1"></div>
+            <div class="col-md-10 tabgroup">
                 <div class="submit-form">
-                    <h2>Booking Code: <%= bookingCode%> Payment Sucessfull!</h2>
-                    <p>Review your tickets and print</p>
-                    <!--                    <div class="row">-->
-                    <!--                        <div class="col-md-3">-->
-                    <!--                            <a href="/home/payment/<%- flightId %>-<%- passengers %>">-->
-                    <!--                                <button type="button" class="btn">Back to Payment Page</button>-->
-                    <!--                            </a>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h2>Your Payment Sucessfull!</h2>
+                            <p class="bigger-font">Review your tickets | <span onclick="saveToPDF()" style="cursor: pointer"> Download</span></p>
+                            <%
+                            let airlineCode = airline;
+                            let arlines = [
+                                {
+                                    code: "QH",
+                                    name: "Bamboo Airways"
+                                },
+                                {
+                                    code: "VU",
+                                    name: "Vietravel Airlines"
+                                },
+                                {
+                                    code: "VNA",
+                                    name: "Vietnam Airlines"
+                                },
+                                {
+                                    code: "VJ",
+                                    name: "VietJet Air"
+                                }
+                            ]
+
+                            let airlineName = arlines.find(airline => {
+                                return airlineCode === airline.code
+                            }) || {code: "unknown", name: "unknown"};
+                            %>
+                            <div class="row">
+                                <label class="bigger-font"><strong><%= airlineName.name %></strong> | <%= flightCode %>
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label class="bigger-font">Code: <em><strong><%= bookingCode %> </strong></em> </label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <img src="<%= qrSrc %>" alt="qrcode" width="175px" >
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <label for="" class="bigger-font">
+
+                        </label>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3><i class="fa fa-plane" aria-hidden="true"
+                                   style="color: DodgerBlue; font-size: 1.5em "></i> <%= departure["city"] %>
+                                (<%= departure["code"] %>) <i
+                                        class="fa fa-long-arrow-right"
+                                        aria-hidden="true"></i> <%= arrival["city"] %>
+                                (<%= arrival["code"] %>) </h3>
+                        </div>
+
+                        <div class="col-md-12">
+                            <h4>
+                            </h4>
+                        </div>
+
+                    </div>
+
+
+                    <!--                            <form id="form-submit" action="/home/flight" method="GET">-->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <fieldset>
+                                <%
+                                const options = {weekday: 'short', year: 'numeric', month: 'long', day: 'numeric'};
+                                options["timeZone"] = 'Asia/Bangkok';
+                                %>
+                                <h5 class="bigger-font"><em>Departure
+                                        - <%= date.toLocaleDateString('en-GB', options) %></em></h5>
+                            </fieldset>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label class="bigger-font"><%= STD %> </label>
+                                </div>
+                                <div class="col-md-2">
+                                    <%
+                                    // js code here
+                                    let STD1 = STD.split(":");
+                                    STD1.map(std => {
+                                        std = parseInt(std);
+                                    });
+                                    let STA1 = STA.split(":");
+                                    STA1.map(sta => {
+                                        sta = parseInt(sta);
+                                    });
+                                    if (+STA1[0] < +STD1[0]) {
+                                        STA1[0] = 24 + STA1[0];
+                                    }
+                                    let flightTime = [];
+                                    flightTime[0] = STA1[0] - STD1[0];
+                                    flightTime[1] = STA1[1] - STD1[1];
+                                    %>
+                                    <label class="bigger-font "><%= flightTime[0] %>h <%= flightTime[1] %>
+                                        m</label>
+
+                                </div>
+                                <div class="col-md-8">
+                                    <label class="bigger-font"><%= STA %> </label>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label class="bigger-font "><%= departure["code"] %> </label>
+                                </div>
+                                <div class="col-md-2 justify-content-center"
+                                     style="text-align:center !important">
+                                    <label class="bigger-font text-center"><i class="fa fa-long-arrow-right"
+                                                                              aria-hidden="true"></i></label>
+                                </div>
+                                <div class="col-md-8">
+                                    <label class="bigger-font"><%= arrival["code"] %> </label>
+
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <h4></h4>
+                                <h4>Contact info</h4>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="bigger-font" for="">First Name: &nbsp; </label>
+                                    <label class="bigger-font"
+                                           for=""><em><strong><%= contact[0].contactFirstName %></strong></em></label>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="bigger-font" for="">Last Name: &nbsp; </label>
+                                    <label class="bigger-font"
+                                           for=""><em><strong><%= contact[0].contactLastName %></strong></em></label>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="bigger-font" for="">Email: &nbsp; </label>
+                                    <label class="bigger-font"
+                                           for=""><em><strong><%= contact[0].contactEmail %></strong></em></label>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="bigger-font" for="">Phone: &nbsp; </label>
+                                    <label class="bigger-font"
+                                           for=""><em><strong><%= contact[0].contactPhoneNumber %></strong></em></label>
+                                </div>
+                            </div>
+
+
+                            <!--                           Adutl -->
+
+                            <div class="row">
+                                <h4></h4>
+                                <h4>Passengers info</h4>
+                            </div>
+
+                            <% adult.forEach((adt, index) => { %>
+                                <div class="row">
+                                    <label for="" class="bigger-font"><strong>Adult <%= index + 1 %> |
+                                            Title: <%= adt[`titleAdult${index}`] %></strong></label>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label class="bigger-font" for="">First Name: &nbsp; </label>
+                                        <label class="bigger-font"
+                                               for=""><em><strong><%= adt[`firstNameAdult${index}`] %></strong></em></label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="bigger-font" for="">Last Name: &nbsp; </label>
+                                        <label class="bigger-font"
+                                               for=""><em><strong><%= adt[`lastNameAdult${index}`] %></strong></em></label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="bigger-font" for="">Birth Day: &nbsp; </label>
+                                        <label class="bigger-font"
+                                               for=""><em><strong><%= adt[`dobAdult${index}`] %></strong></em></label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="bigger-font" for="">Nationality: &nbsp; </label>
+                                        <label class="bigger-font"
+                                               for=""><em><strong><%= adt[`nationalityAdult${index}`] %></strong></em></label>
+                                    </div>
+                                </div>
+                            <% }) %>
+                            <div class="row">
+                                <h4 style="border: none"></h4>
+                            </div>
+                            <!--                            Child-->
+                            <% child.forEach((adt, index) => { %>
+                                <div class="row">
+                                    <label for="" class="bigger-font"><strong>Child <%= index + 1 %> |
+                                            Title: <%= adt[`titleChild${index}`] %></strong></label>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label class="bigger-font" for="">First Name: &nbsp; </label>
+                                        <label class="bigger-font"
+                                               for=""><em><strong><%= adt[`firstNameChild${index}`] %></strong></em></label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="bigger-font" for="">Last Name: &nbsp; </label>
+                                        <label class="bigger-font"
+                                               for=""><em><strong><%= adt[`lastNameChild${index}`] %></strong></em></label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="bigger-font" for="">Birth Day: &nbsp; </label>
+                                        <label class="bigger-font"
+                                               for=""><em><strong><%= adt[`dobChild${index}`] %></strong></em></label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="bigger-font" for="">Nationality: &nbsp; </label>
+                                        <label class="bigger-font"
+                                               for=""><em><strong><%= adt[`nationalityChild${index}`] %></strong></em></label>
+                                    </div>
+                                </div>
+                            <% }) %>
+
+                            <!--                            Infant-->
+
+                            <div class="row">
+                                <h4 style="border: none"></h4>
+                            </div>
+                            <!--                            Child-->
+                            <% infant.forEach((adt, index) => { %>
+                                <div class="row">
+                                    <label for="" class="bigger-font"><strong>Infant <%= index + 1 %> |
+                                            Title: <%= adt[`titleInfant${index}`] %></strong></label>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label class="bigger-font" for="">First Name: &nbsp; </label>
+                                        <label class="bigger-font"
+                                               for=""><em><strong><%= adt[`firstNameInfant${index}`] %></strong></em></label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="bigger-font" for="">Last Name: &nbsp; </label>
+                                        <label class="bigger-font"
+                                               for=""><em><strong><%= adt[`lastNameInfant${index}`] %></strong></em></label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="bigger-font" for="">Birth Day: &nbsp; </label>
+                                        <label class="bigger-font"
+                                               for=""><em><strong><%= adt[`dobInfant${index}`] %></strong></em></label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="bigger-font" for="">Nationality: &nbsp; </label>
+                                        <label class="bigger-font"
+                                               for=""><em><strong><%= adt[`nationalityInfant${index}`] %></strong></em></label>
+                                    </div>
+                                </div>
+                            <% }) %>
+
+                            <div class="row">
+
+
+                            </div>
+
+
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div class="col-md-1"></div>
+
+
+
         </div>
     </div>
 </section>
-
+<script>
+    const element = document.getElementById("ticket-detail");
+    const opt = {
+        margin: 1,
+        filename: "e-Ticket_<%=bookingCode%>.pdf",
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+    };
+    async function saveToPDF() {
+        await html2pdf().set(opt).from(element).save();
+    }
+</script>
 
 <!--Body above here-->
 

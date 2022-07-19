@@ -11,6 +11,6 @@ const userSchema = new Schema({
     email: {type:String, required: true},
     avatarUrl: {type:String,default:'/public/img/avatar/avatar-default.png'}
 });
-const user = model('user', userSchema);
+const user = model('User', userSchema);
 
 export default user;

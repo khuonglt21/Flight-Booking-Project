@@ -12,6 +12,6 @@ const userSchema = new mongoose_1.Schema({
     email: { type: String, required: true },
     avatarUrl: { type: String, default: '/public/img/avatar/avatar-default.png' }
 });
-const user = (0, mongoose_1.model)('user', userSchema);
+const user = (0, mongoose_1.model)('User', userSchema);
 exports.default = user;
 //# sourceMappingURL=User.model.js.map
