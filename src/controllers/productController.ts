@@ -1,6 +1,6 @@
 import airportModel from "../schemas/Airport.model";
 import classModel from "../schemas/Class.model";
-import flightModel from "../schemas/Flight.model";
+import axios from 'axios';
 import flightDetailModel from "../schemas/FlightDetail.model";
 import {app} from "../../index";
 import nanoid from "nanoid"; // must using nanoid @2.1.9
@@ -14,6 +14,9 @@ class ProductController {
         let user = req.user;
         let airports = await airportModel.find({});
         let classNames = await classModel.find({});
+        const url = 'http://api.openweathermap.org/data/2.5/weather?id=1581130&appid=05f149a851779d5c599f4979a1f30bfd';
+        const response = await axios.get(url);
+        const data = response.data;
         return res.render('home', {airports, classNames, user})
     }
 
