@@ -1,6 +1,7 @@
 import User from '../schemas/User.model'
 import bcrypt from 'bcrypt';
 const saltRounds = 10;
+import {app} from '../../index';
 
 export const authController = {
     registerUser:async (req, res,next) => {
@@ -41,6 +42,9 @@ export const authController = {
         }
     },
     renderLogin: async(req,res,next) =>{
+        const prevUrl = req.headers.referer || "/home/booking"
+        // console.log(prevUrl)
+        app.set("prevUrl",prevUrl);
         res.render('login')
     },
     renderRegister: async(req,res,next) =>{

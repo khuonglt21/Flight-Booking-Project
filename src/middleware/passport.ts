@@ -7,11 +7,11 @@ import bcrypt from 'bcrypt';
 passport.use(new LocalStrategy(
    function (username, password, done) {
         User.findOne({username: username}, function (err, user) {
-            console.log(user);
+            // console.log(user);
             bcrypt.compare(password, user.password, function(err, result) {
                 // result === true
                 // console.log(result);
-                console.log(password,'alo',user.password)
+                // console.log(password,'alo',user.password)
                 if (err) {
                     return done(err);
                 }
@@ -37,7 +37,7 @@ passport.use(new GoogleStrategy({
     },
     async (request, accessToken, refreshToken, profile, done) => {
         try {
-            console.log(profile, 'profile')
+            // console.log(profile, 'profile')
             let existingUser = await User.findOne({ 'google.id': profile.id });
             // if user exists return the user
             // console.log(existingUser);

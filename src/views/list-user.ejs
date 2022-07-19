@@ -29,7 +29,7 @@
     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
-               aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+               aria-expanded="false"><%= admin %> <i class="fas fa-user fa-fw"></i></a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="#!">Settings</a></li>
                 <li><a class="dropdown-item" href="#!">Activity Log</a></li>
@@ -53,7 +53,10 @@
                     <div class="sb-sidenav-menu-heading">Core</div>
                     <a class="nav-link" href="/home/booking">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        MENU
+                        Home
+                    </a><a class="nav-link" href="/admin/list-users">
+                        <div class="sb-nav-link-icon"><i class="fa fa-users" aria-hidden="true"></i></div>
+                        User Manager
                     </a>
                     <div class="sb-sidenav-menu-heading">Interface</div>
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
@@ -179,10 +182,10 @@
                                     <td><%= user.role %></td>
                                     <% if(user.isBanned){ %>
                                     <td><a href="/admin/banned?<%= user._id %>"
-                                           class="btn btn-danger"><%= user.isBanned %></a></td>
+                                           class="btn btn-danger"><%= user.isBanned ? "Unban" : "Ban" %></a></td>
                                     <% } else { %>
                                     <td><a href="/admin/banned?<%= user._id %>"
-                                           class="btn btn-success"><%= user.isBanned %></a></td>
+                                           class="btn btn-success"><%= user.isBanned ? "Unban" : "Ban"  %></a></td>
                                     <%}%>
                                 </tr>
                             <% }) %>

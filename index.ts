@@ -5,6 +5,7 @@ import appRoot from "app-root-path";
 import {logger} from "./src/logger/winston";
 import passport from "./src/middleware/passport"
 import errorControllers from "./src/controllers/errorControllers";
+import expressLayouts from 'express-ejs-layouts';
 
 const appRootPath = appRoot.path;
 import path from "path";
@@ -29,8 +30,21 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 // setup view engine
+app.use(setLayouts);
 app.set('view engine', 'ejs');
 app.set('views', './src/views');
+app.set("layout", path.join("layouts", "layout"));
+
+// set middleware to use layout
+function setLayouts(req, res, next) {
+    const routes = ["auth", 'user', 'admin', 'flight', 'public'];
+    const baseUrl = req.originalUrl.split('/')[1];
+    if (routes.includes(baseUrl)) {
+        next();
+    } else {
+        return expressLayouts(req, res, next)
+    }
+}
 
 // setup static file
 app.use('/public', express.static(path.join(appRootPath, "src", 'public')));
@@ -47,6 +61,12 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.get('/', (req, res) => {
+    return res.redirect("/home/booking")
+});
+app.get('/home', (req, res) => {
+    return res.redirect("/home/booking")
+});
 
 app.use('/auth', authRouter);
 app.use('/home', productRouter);//get in home page

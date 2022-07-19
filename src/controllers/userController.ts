@@ -1,4 +1,12 @@
-import User from '../schemas/User.model'
+import User from '../schemas/User.model';
+
+import {ticketModel} from "../schemas/Ticket.model";
+import {passengerModel} from "../schemas/Passenger.model";
+import {contactModel} from "../schemas/Contact.model";
+import {ticketHistoryModel} from "../schemas/TicketHistory.model";
+import flightDetailModel from "../schemas/FlightDetail.model";
+import flightModel from "../schemas/Flight.model";
+import {app} from "../../index"
 
 const userController = {
     showInfo : (req,res,next) => {
@@ -9,7 +17,7 @@ const userController = {
         res.render('edit-info',{user: user})
     },
     editInfo :async (req,res,next) => {
-        console.log('1')
+        // console.log('1')
         const user = req.body;
         let file = req.file
         if (file) {
@@ -32,19 +40,41 @@ const userController = {
         // alert('update completed');
         res.redirect('/home/booking');
     },
-    displayHistory:(req, res) => {
-        let user = {
-            bookingCode:'441414',
-            airlines:'VietnamAirlines',
-            quantityTicket:'3',
-            STD:'20/7/2022',
-            departurePlace:'HNA',
-            arrivalPlace:'HCM',
-            class:'economy',
-            username:'Taylor Swift'
-        };
+    displayHistory:async (req, res) => {
+        let userID = req.user._id;
+            const userHistory = [];
+            let bookingCodes = await ticketHistoryModel.distinct("bookingCode",{userID});
+            for (const bookingCode of bookingCodes) {
+                let flightDetail = (await ticketModel.findOne({bookingCode}))._id;
+                let ticketQuantity = await ticketModel.find({bookingCode}).count();
+                let flight = await flightDetailModel.findOne({id : flightDetail}, {"flightID" : 1})
+                    .populate({
+                        path: "flightID",
+                        select: ["date", "airline"],
+                        populate: [{
+                            path: "departure" ,
+                            select: ["city", "code"]},
+                            {
+                                path: "arrival",
+                                select: ["city", "code"]
+                            }]
+                    });
+                let flightInfo = flight.flightID;
+                let departure = flightInfo["departure"];
+                let arrival = flightInfo["arrival"];
+                let date = flightInfo["date"];
+                let airline = flightInfo["airline"];
+
+                // flightInfo["bookingCode"] = bookingCode;
+                const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric', timeZone : 'Asia/Bangkok'};
+                date = date.toLocaleDateString('en-GB', options);
+
+                let infoFlight = {departure, arrival, date, airline, bookingCode, ticketQuantity}
+                userHistory.push(infoFlight)
+            }
+        // return res.json(userHistory)
         // return res.json(user)
-        res.render('flight/displayHistoryUser',{user:user});
+        res.render('flight/displayHistoryUser',{userHistory, user: req.user});
     }
 };
 

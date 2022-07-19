@@ -877,7 +877,8 @@ footer p em {
 
 
 .page-heading {
-	background-image: url(../img/heading-bg.jpg);
+	background-image: url(../img/banner-bg.jpg);
+	height: 100%;
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center center;

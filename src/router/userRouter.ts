@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage })
 
-router.get('/communication',userController.displayHistory)
+router.get('/buy-history',userController.displayHistory)
 
 router.get('/info',userController.showInfo);
 

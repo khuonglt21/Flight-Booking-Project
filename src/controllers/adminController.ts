@@ -8,9 +8,9 @@ export const adminController= {
         res.render('list-user',{users: users,admin: admin});
     },
     bannedUser:async (req, res,next) => {
-        console.log(req.query);
+        // console.log(req.query);
         let userId = Object.keys(req.query);
-        console.log(userId[0])
+        // console.log(userId[0])
         const user = await User.findById(userId[0]);
         // console.log(user.isBanned +'1')
         if(user.isBanned){

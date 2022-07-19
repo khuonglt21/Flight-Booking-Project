@@ -1,7 +1,9 @@
 const auth ={
     checkAuth: function(req, res,next) {
-        // console.log(req.user);
-        if(req.isAuthenticated){
+        if(req.isAuthenticated()){
+            if(req.user.isBanned) {
+                return next({code: 403, message: "You account has been banned"});
+            }
             next()
         }else{
             res.redirect('/auth/login')

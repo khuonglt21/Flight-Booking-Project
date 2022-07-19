@@ -27,7 +27,7 @@ class ProductController {
         const url = 'http://api.openweathermap.org/data/2.5/weather?id=1581130&appid=05f149a851779d5c599f4979a1f30bfd';
         const response = await axios.get(url);
         const data = response.data;
-        return res.render('home', {airports, classNames, user})
+        return res.render('booking', {airports, classNames, user})
     }
 
     // [GET] /home/flight?
@@ -108,7 +108,7 @@ class ProductController {
         app.set("flightDetail", flightDetail);
         let user = req.user
 
-        return res.render("flight/passenger", {
+        return res.render("flight/booking-flight", {
             flightInfo: fullDetailFlight,
             date: date,
             quantityPassenger: quantityPassenger,
@@ -175,7 +175,8 @@ class ProductController {
             passengers,
             flightId,
             totalPayment,
-            bookingCode
+            bookingCode,
+            user: req.user
         })
     }
 
@@ -198,7 +199,7 @@ class ProductController {
         let {passengers, flightId, bookingCode} = allBookingData.flightDetail;
 
         if (!paymentResult) {
-            return res.render("flight/paymentFailure", {passengers, flightId});
+            return res.render("flight/paymentFailure", {passengers, flightId, user: req.user});
         }
         // if payment sucessfully
 
@@ -454,7 +455,7 @@ class ProductController {
             // console.log(qr);
             let qrSrc = qr;
             let data = {passengers, flightCode, airline, type, STA, STD,
-                date, departure, arrival,contact,adult, child, infant, bookingCode ,flightId , qrSrc}
+                date, departure, arrival,contact,adult, child, infant, bookingCode ,flightId , qrSrc, user: req.user}
             // return res.json(data)
             return res.render("flight/paymentSuccess",data);
             /*

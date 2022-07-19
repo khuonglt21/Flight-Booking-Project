@@ -15,8 +15,8 @@
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <!-- Navbar Brand-->
     <a class="navbar-brand ps-3" href="/home/booking"><img class="d-inline-block"
-                                                                          src="/public/img/logo.png" style="width: 100%; height: 100%;"
-                                                                          alt="logo"/></a>
+                                                           src="/public/img/logo.png" style="width: 100%; height: 100%;"
+                                                           alt="logo"/></a>
 
     <!-- Sidebar Toggle-->
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
@@ -58,7 +58,7 @@
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
                        aria-expanded="false" aria-controls="collapseLayouts">
                         <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                        Layouts
+                        History
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
                     <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
@@ -139,36 +139,40 @@
                         <table id="datatablesSimple">
                             <thead>
                             <tr>
-                                <th>Name</th>
+                                <th>No. </th>
                                 <th>Booking Code</th>
                                 <th>Quantity Ticket</th>
                                 <th>Airline</th>
-                                <th>STD</th>
-                                <th>Departure Place</th>
-                                <th>Arrival Place</th>
+                                <th>Date</th>
+                                <th>Departure</th>
+                                <th>Arrival</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
-                                <th>Name</th>
+                                <th>No.</th>
                                 <th>Booking Code</th>
                                 <th>Quantity Ticket</th>
                                 <th>Airline</th>
-                                <th>STD</th>
-                                <th>Departure Place</th>
-                                <th>Arrival Place</th>
+                                <th>Date</th>
+                                <th>Departure</th>
+                                <th>Arrival</th>
                             </tr>
                             </tfoot>
                             <tbody>
-                            <tr>
-                                <td><%= user.username%></td>
-                                <td><%= user.bookingCode%></td>
-                                <td><%= user.quantityTicket%></td>
-                                <td><%= user.airlines%></td>
-                                <td><%= user.STD%></td>
-                                <td><%= user.departurePlace%></td>
-                                <td><%= user.arrivalPlace%></td>
-                            </tr>
+                            <% userHistory.forEach((history, index) => { %>
+                                <tr>
+                                    <td><%= index + 1%></td>
+                                    <td><%= history.bookingCode %></td>
+                                    <td><%= history.ticketQuantity %></td>
+                                    <td><%= history.airline%></td>
+                                    <td><%= history.date%></td>
+                                    <td><%= history.departure.city%> (<%=history.departure.code%>)</td>
+                                    <td><%= history.arrival.city%> (<%=history.arrival.code%>)</td>
+                                </tr>
+
+                            <%}) %>
+
 
                             </tbody>
                         </table>

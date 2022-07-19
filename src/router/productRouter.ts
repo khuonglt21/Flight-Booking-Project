@@ -3,6 +3,8 @@ import flightDetailController from "../controllers/showFlightControllers";
 const router = express.Router();
 import productController from "../controllers/productController";
 import errorControllers from "../controllers/errorControllers";
+import auth from "../middleware/auth";
+
 
 // co the xoa di
 
@@ -23,34 +25,20 @@ router.get('/flight',  flightDetailController.showDetailFlight);
 
 // [GET] fill passage info
 
-router.get("/booking-flight/:flightId-:passengers", productController.bookingFlight)
+router.get("/booking-flight/:flightId-:passengers",auth.checkAuth, productController.bookingFlight)
 //[GET] get prebook detail
 
 router.get('/prebooking/:flightId-:passengers', flightDetailController.showInfoFlight);
 
 // [POST] post payment detail
-router.post('/payment', productController.paymentBooking);
+router.post('/payment',auth.checkAuth, productController.paymentBooking);
 //[GET] get payment detail
-router.get('/payment/:flightId-:passengers', productController.getPaymentBooking);
+router.get('/payment/:flightId-:passengers',auth.checkAuth, productController.getPaymentBooking);
 
 //[POST] /home/confirm-payment -confirm payment
-router.post('/confirm-payment/:flightId-:passengers', productController.confirmPayment);
+router.post('/confirm-payment/:flightId-:passengers',auth.checkAuth, productController.confirmPayment);
 
-router.get("/get", async (req, res, next) => {
-    let ticket = await ticketModel.find({bookingCode: "AKYCXAGS"}).populate([
-        {path: "passengerID"}
-       ]);
-    return res.json(ticket)
-});
-
-router.get("/payment-success", productController.paymentSuccess)
-// router.get("/payment-success", async (req, res, next) =>{
-//     const bookingCode = req.query.code;
-//     let ticket = await ticketModel.find({bookingCode}).populate([
-//         {path: "passengerID"}
-//     ]);
-//     return res.json(ticket);
-// })
-
+//[GET] /home/payment-success
+router.get("/payment-success",auth.checkAuth, productController.paymentSuccess);
 
 export default router

@@ -8,7 +8,7 @@ class ShowFlightController {
     }
 
     async showDetailFlight(req, res, next) {
-        console.log(req.query);
+        // console.log(req.query);
         // Thực hiện tìm kiếm chuyến bay theo dữ liệu đầu vào
         const {
             from: departureSearch,
@@ -20,7 +20,7 @@ class ShowFlightController {
         } = req.query
         let dateSplit = departDate.split("/"); // tách ra để format lại date input từ dạng mm/dd/yyyy về dạng yyyy-mm-dd , để đưa vào new Date() k bị lỗi
         const passengers = parseInt(totalPassenger[0]) + parseInt(totalPassenger[1])
-        console.log(passengers)
+        // console.log(passengers)
         const dateSearch = (new Date(`${dateSplit[2]}-${dateSplit[0]}-${dateSplit[1]}`)).getTime();
 
         const searchFlight = {remainingSeats: {$gt: passengers}}
@@ -48,10 +48,10 @@ class ShowFlightController {
         //
         let user = req.user;
 
-        console.log(passengersSearch)
+        // console.log(passengersSearch)
 
         // return res.json(searchDetailFlight);
-        res.render('middle', {flightInfo: searchDetailFlight, passengersSearch,user})
+        res.render('flight', {flightInfo: searchDetailFlight, passengersSearch,user})
     };
 
     async showInfoFlight(req, res, next) {
@@ -75,7 +75,7 @@ class ShowFlightController {
         const options = {weekday: 'short', year: 'numeric', month: 'long', day: 'numeric'};
         options["timeZone"] = 'Asia/Bangkok';
         let date = fullDetailFlight[0].flightID["date"].toLocaleDateString('en-GB', options);
-        res.render('list-tickets', {flightInfo: fullDetailFlight, date: date, quantityPassenger: quantityPassenger,user});
+        res.render('prebooking', {flightInfo: fullDetailFlight, date: date, quantityPassenger: quantityPassenger,user});
     }
 }
 
