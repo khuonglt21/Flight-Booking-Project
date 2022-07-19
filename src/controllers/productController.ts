@@ -24,6 +24,9 @@ class ProductController {
         let user = req.user;
         let airports = await airportModel.find({});
         let classNames = await classModel.find({});
+        const url = 'http://api.openweathermap.org/data/2.5/weather?id=1581130&appid=05f149a851779d5c599f4979a1f30bfd';
+        const response = await axios.get(url);
+        const data = response.data;
         return res.render('home', {airports, classNames, user})
     }
 
@@ -99,17 +102,19 @@ class ProductController {
         // res.render('list-tickets', {flightInfo: fullDetailFlight, date: date, quantityPassenger: quantityPassenger});
 
 
+
         const bookingCode = nanoid(8).toUpperCase();
         const flightDetail = {flightInfo: fullDetailFlight, date, quantityPassenger, passengers, flightId, bookingCode};
         app.set("flightDetail", flightDetail);
-
+        let user = req.user
 
         return res.render("flight/passenger", {
             flightInfo: fullDetailFlight,
             date: date,
             quantityPassenger: quantityPassenger,
             passengers,
-            flightId
+            flightId,
+            user
         })
 
 
@@ -118,6 +123,7 @@ class ProductController {
     //[POST] home/payment
     async paymentBooking(req, res, next) {
         let bookingData = req.body;
+
 
         app.set("bookingData", req.body)
         return res.json(req.body);
@@ -392,7 +398,7 @@ class ProductController {
                             setTimeout(()=> {
                                 location.href = "/home/payment-success?code=${code}"
                             }, 10)
-                        
+
                         </script>
                         <a href="../../home/payment-success?code=${code}">Show ticket</a>`)
         return res.redirect('/home/payment-success?code=' + code);
