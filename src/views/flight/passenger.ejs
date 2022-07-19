@@ -28,7 +28,12 @@
             display: none
         }
 
-        .menu1{ border: solid whitesmoke 1px;margin-top:5px;margin-bottom: 5px;font-size: 12px}
+        .menu1 {
+            border: solid whitesmoke 1px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            font-size: 12px
+        }
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -73,15 +78,15 @@
                                 class="nav-link-icon text-800 me-1 fas fa-bolt"></span><span class="nav-link-text">Activities</span></a>
                 </li>
             </ul>
-            <% if(user){%>
-                <span class="text-primary">Welcome! <%= user.firstName%></span>
-            <%}else{%>
+            <% if(user){ %>
+                <span class="text-primary">Welcome! <%= user.firstName %></span>
+            <% }else{ %>
                 <form action="/auth/login" method="get">
                     <!--                <button class="btn text-800 order-1 order-lg-0 me-2" type="button">Support</button>-->
                     <button class="btn btn-voyage-outline order-0" type="submit"><span class="text-primary">Sign in/Sign up</span>
                     </button>
                 </form>
-            <%}%>
+            <% } %>
         </div>
     </div>
 </nav>
@@ -135,7 +140,7 @@
 </section>
 
 
-<section class="banner2 banner" id="top">
+<section class="banner2 banner" id="top" style="padding-top: 10px">
     <div class="container">
         <div class="row">
             <div class="col-md-12 tabgroup">
@@ -158,7 +163,7 @@
                     </div>
                     <!--                    <form action="/home/flight" method="GET">-->
 
-                    <section class="tabgroup" >
+                    <section class="tabgroup">
                         <div>
                             <div class="submit-form">
                                 <div class="row">
@@ -178,7 +183,8 @@
                                     <div class="col-md-6">
                                         <fieldset>
                                             <label class="bigger-font" for="lastName">Last Name(e.g. Nguyen):</label>
-                                            <input  name="contactLastName" type="text" class="form-control text bigger-font" id="lastName"
+                                            <input name="contactLastName" type="text"
+                                                   class="form-control text bigger-font" id="lastName"
                                                    placeholder="Last name..." required onchange='/*this.form.()*/'>
                                         </fieldset>
                                         <p><small>(without title and punctuation)</small></p>
@@ -187,8 +193,10 @@
 
                                     <div class="col-md-6">
                                         <fieldset>
-                                            <label class="bigger-font" for="firstName ">Middle & First Name(e.g. Thi Ngoc Anh):</label>
-                                            <input name="contactFirstName" type="text" class="form-control text bigger-font"
+                                            <label class="bigger-font" for="firstName ">Middle & First Name(e.g. Thi
+                                                Ngoc Anh):</label>
+                                            <input name="contactFirstName" type="text"
+                                                   class="form-control text bigger-font"
                                                    id="firstName"
                                                    placeholder="First name..." required onchange='/*this.form.()*/'>
                                         </fieldset>
@@ -199,7 +207,8 @@
                                     <div class="col-md-6">
                                         <fieldset>
                                             <label class="bigger-font" for="phoneNumber">Mobile Number:</label>
-                                            <input name="contactPhoneNumber" type="number" class="form-control text bigger-font"
+                                            <input name="contactPhoneNumber" type="number"
+                                                   class="form-control text bigger-font"
                                                    id="phoneNumber"
                                                    placeholder="Phone number..." required
                                                    onchange='/*this.form.()*/'>
@@ -212,7 +221,8 @@
                                     <div class="col-md-6">
                                         <fieldset>
                                             <label class="bigger-font" for="email">Email:</label>
-                                            <input name="contactEmail" type="email" class="form-control text bigger-font" id="email"
+                                            <input name="contactEmail" type="email"
+                                                   class="form-control text bigger-font" id="email"
                                                    placeholder="Email..." required onchange='/*this.form.()*/'>
                                         </fieldset>
                                         <p><small>e.g. email@example.com</small></p>
@@ -263,7 +273,8 @@
 
                                         <div class="col-md-6">
                                             <fieldset>
-                                                <label class="bigger-font" for="lastName">Last Name(e.g. Nguyen):</label>
+                                                <label class="bigger-font" for="lastName">Last Name(e.g.
+                                                    Nguyen):</label>
                                                 <input name="lastNameAdult<%= i %>" type="text"
                                                        class="form-control text bigger-font"
                                                        id="lastName"
@@ -276,7 +287,8 @@
 
                                         <div class="col-md-6">
                                             <fieldset>
-                                                <label class="bigger-font" for="firstName">Middle & First Name(e.g. Thi Ngoc
+                                                <label class="bigger-font" for="firstName">Middle & First Name(e.g. Thi
+                                                    Ngoc
                                                     Anh):</label>
                                                 <input name="firstNameAdult<%= i %>" type="text"
                                                        class="form-control text bigger-font"
@@ -291,7 +303,8 @@
                                         <div class="col-md-6">
                                             <fieldset>
                                                 <label class="bigger-font" for="dob">Date of Birth:</label>
-                                                <input name="dobAdult<%= i %>" type="date" class="form-control text bigger-font"
+                                                <input name="dobAdult<%= i %>" type="date"
+                                                       class="form-control text bigger-font"
                                                        id="dob"
                                                        placeholder="1910-01-01" required onchange='/*this.form.()*/'
                                                        min='1910-01-01' max='2010-01-01'>
@@ -348,7 +361,8 @@
 
                                         <div class="col-md-6">
                                             <fieldset>
-                                                <label class="bigger-font" for="lastName">Last Name(e.g. Nguyen):</label>
+                                                <label class="bigger-font" for="lastName">Last Name(e.g.
+                                                    Nguyen):</label>
                                                 <input name="lastNameChild<%= i %>" type="text"
                                                        class="form-control text bigger-font"
                                                        id="lastName"
@@ -361,7 +375,8 @@
 
                                         <div class="col-md-6">
                                             <fieldset>
-                                                <label class="bigger-font" for="firstName">Middle & First Name(e.g. Thi Ngoc
+                                                <label class="bigger-font" for="firstName">Middle & First Name(e.g. Thi
+                                                    Ngoc
                                                     Anh):</label>
                                                 <input name="firstNameChild<%= i %>" type="text"
                                                        class="form-control text bigger-font"
@@ -376,7 +391,8 @@
                                         <div class="col-md-6">
                                             <fieldset>
                                                 <label class="bigger-font" for="dob">Date of Birth:</label>
-                                                <input name="dobChild<%= i %>" type="date" class="form-control text bigger-font"
+                                                <input name="dobChild<%= i %>" type="date"
+                                                       class="form-control text bigger-font"
                                                        id="dob"
                                                        placeholder="1910-01-01" required onchange='/*this.form.()*/'
                                                        min='2010-01-01' max='2020-01-01'>
@@ -423,8 +439,9 @@
 
                                         <div class="col-md-6">
                                             <fieldset>
-                                                <label  for="titleInfant<%= i %>" class="bigger-font">Title:</label>
-                                                <select required name='titleInfant<%=i%>'> <!--onchange='this.form.()'-->
+                                                <label for="titleInfant<%= i %>" class="bigger-font">Title:</label>
+                                                <select required name='titleInfant<%= i %>'>
+                                                    <!--onchange='this.form.()'-->
                                                     <option value="Mr">Mr</option>
                                                     <option value="Ms">Ms</option>
                                                 </select>
@@ -434,7 +451,8 @@
 
                                         <div class="col-md-6">
                                             <fieldset>
-                                                <label class="bigger-font" for="lastName">Last Name(e.g. Nguyen):</label>
+                                                <label class="bigger-font" for="lastName">Last Name(e.g.
+                                                    Nguyen):</label>
                                                 <input name="lastNameInfant<%= i %>" type="text"
                                                        class="form-control text bigger-font" id="lastName"
                                                        placeholder="Last name..." required
@@ -446,7 +464,8 @@
 
                                         <div class="col-md-6">
                                             <fieldset>
-                                                <label class="bigger-font" for="firstName">Middle & First Name(e.g. Thi Ngoc
+                                                <label class="bigger-font" for="firstName">Middle & First Name(e.g. Thi
+                                                    Ngoc
                                                     Anh):</label>
                                                 <input name="firstNameInfant<%= i %>" type="text"
                                                        class="form-control text bigger-font" id="firstName"
@@ -492,11 +511,13 @@
                             <div class="col-md-6"></div>
                             <div class="col-md-6">
                                 <fieldset>
-                                    <button type="button"  class="btn" onclick="sendForm('<%- flightId%>','<%-passengers%>')">Continue</button>
+                                    <button type="button" class="btn"
+                                            onclick="sendForm('<%- flightId %>','<%- passengers %>')">Continue
+                                    </button>
 
-<!--                                    <button type="submit" id="&lt;!&ndash;form-submit&ndash;&gt;" style="margin-top: 0px" class="btn">-->
-<!--                                        Continue-->
-<!--                                    </button>-->
+                                    <!--                                    <button type="submit" id="&lt;!&ndash;form-submit&ndash;&gt;" style="margin-top: 0px" class="btn">-->
+                                    <!--                                        Continue-->
+                                    <!--                                    </button>-->
                                 </fieldset>
                             </div>
                         </div>
@@ -513,7 +534,12 @@
                         <div class="submit-form">
                             <div class="row">
                                 <div class="col-md-10">
-                                    <h3><i class="fa fa-plane" aria-hidden="true" style="color: DodgerBlue; font-size: 1.5em "></i> <%= flightInfo[0].flightID["departure"]["city"]%> (<%= flightInfo[0].flightID["departure"]["code"] %>) <i class="fa fa-long-arrow-right" aria-hidden="true"></i> <%= flightInfo[0].flightID["arrival"]["city"] %> (<%= flightInfo[0].flightID["arrival"]["code"] %>)  </h3>
+                                    <h3><i class="fa fa-plane" aria-hidden="true"
+                                           style="color: DodgerBlue; font-size: 1.5em "></i> <%= flightInfo[0].flightID["departure"]["city"] %>
+                                        (<%= flightInfo[0].flightID["departure"]["code"] %>) <i
+                                                class="fa fa-long-arrow-right"
+                                                aria-hidden="true"></i> <%= flightInfo[0].flightID["arrival"]["city"] %>
+                                        (<%= flightInfo[0].flightID["arrival"]["code"] %>) </h3>
                                 </div>
                                 <div class="col-md-2">
                                     <h3>
@@ -533,7 +559,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <fieldset>
-                                        <h5 class="bigger-font" ><em>Departure - <%= date %></em></h5>
+                                        <h5 class="bigger-font"><em>Departure - <%= date %></em></h5>
 
                                     </fieldset>
                                 </div>
@@ -545,29 +571,27 @@
                                         let flightCode = flightInfo[0].flightID["airline"];
                                         let arlines = [
                                             {
-                                                code : "QH",
-                                                name : "Bamboo Airways"
+                                                code: "QH",
+                                                name: "Bamboo Airways"
                                             },
                                             {
-                                                code : "VU",
-                                                name : "Vietravel Airlines"
+                                                code: "VU",
+                                                name: "Vietravel Airlines"
                                             },
                                             {
-                                                code : "VNA",
-                                                name : "Vietnam Airlines"
+                                                code: "VNA",
+                                                name: "Vietnam Airlines"
                                             },
                                             {
-                                                code : "VJ",
-                                                name : "VietJet Air"
+                                                code: "VJ",
+                                                name: "VietJet Air"
                                             }
                                         ]
 
-                                        let airline = arlines.find( airline => {
+                                        let airline = arlines.find(airline => {
                                             return flightCode === airline.code
                                         }) || {code: "unknown", name: "unknown"};
-
                                         %>
-
 
                                         <label class="bigger-font"><%= airline.name %></label>
                                     </fieldset>
@@ -592,13 +616,14 @@
                                                 sta = parseInt(sta);
                                             });
                                             if (+STA[0] < +STD[0]) {
-                                                STA[0] = 24 +  STA[0];
+                                                STA[0] = 24 + STA[0];
                                             }
                                             let flightTime = [];
                                             flightTime[0] = STA[0] - STD[0];
                                             flightTime[1] = STA[1] - STD[1];
                                             %>
-                                            <label class="bigger-font " ><%= flightTime[0]%>h <%= flightTime[1]%>m</label>
+                                            <label class="bigger-font "><%= flightTime[0] %>h <%= flightTime[1] %>
+                                                m</label>
 
                                         </div>
                                         <div class="col-md-4">
@@ -609,19 +634,19 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-md-4" >
-                                            <label class="bigger-font " ><%= flightInfo[0].flightID["departure"]["code"] %> </label>
+                                        <div class="col-md-4">
+                                            <label class="bigger-font "><%= flightInfo[0].flightID["departure"]["code"] %> </label>
                                         </div>
-                                        <div class="col-md-4 justify-content-center" style="text-align:center !important" >
-                                            <label class="bigger-font text-center"  ><i class="fa fa-long-arrow-right" aria-hidden="true"></i></label>
+                                        <div class="col-md-4 justify-content-center"
+                                             style="text-align:center !important">
+                                            <label class="bigger-font text-center"><i class="fa fa-long-arrow-right"
+                                                                                      aria-hidden="true"></i></label>
                                         </div>
                                         <div class="col-md-4">
                                             <label class="bigger-font"><%= flightInfo[0].flightID["arrival"]["code"] %> </label>
 
                                         </div>
                                     </div>
-
-
 
 
                                     <!--                                        <p><small>e.g. +62812345678, for Country Code (+62) and Mobile No.-->
@@ -632,7 +657,6 @@
                         </div>
                     </div>
                 </section>
-
 
 
             </div>
