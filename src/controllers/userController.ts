@@ -31,6 +31,20 @@ const userController = {
 
         // alert('update completed');
         res.redirect('/home/booking');
+    },
+    displayHistory:(req, res) => {
+        let user = {
+            bookingCode:'441414',
+            airlines:'VietnamAirlines',
+            quantityTicket:'3',
+            STD:'20/7/2022',
+            departurePlace:'HNA',
+            arrivalPlace:'HCM',
+            class:'economy',
+            username:'Taylor Swift'
+        };
+        // return res.json(user)
+        res.render('flight/displayHistoryUser',{user:user});
     }
 };
 
