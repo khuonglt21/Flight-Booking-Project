@@ -2,21 +2,28 @@ import passport from "passport";
 import User from "../schemas/User.model";
 import LocalStrategy from "passport-local";
 import GoogleStrategy from 'passport-google-oauth20';
+import bcrypt from 'bcrypt';
 
 passport.use(new LocalStrategy(
-    function (username, password, done) {
+   function (username, password, done) {
         User.findOne({username: username}, function (err, user) {
             console.log(user);
-            if (err) {
-                return done(err);
-            }
-            if (!user) {
+            bcrypt.compare(password, user.password, function(err, result) {
+                // result === true
+                // console.log(result);
+                console.log(password,'alo',user.password)
+                if (err) {
+                    return done(err);
+                }
+                if (!user) {
+                    return done(null, false);
+                }
+                if (result) {
+                    return done(null, user);
+                }
                 return done(null, false);
-            }
-            if (user.password != password) {
-                return done(null, false);
-            }
-            return done(null, user);
+
+            });
         });
     }
 ));

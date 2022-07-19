@@ -15,6 +15,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage })
 
+router.get('/communication',userController.displayHistory)
+
 router.get('/info',userController.showInfo);
 
 router.post('/info',upload.single('avatarUrl'),userController.editInfo)
