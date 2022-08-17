@@ -1,4 +1,4 @@
-<%- include ("./partials/header")%>
+<%- include ("./partials/header") %>
 
 
 <section class="page-heading" id="top">
@@ -19,116 +19,182 @@
 
 
 <section class="banner2 banner ">
-    <% for(let i = 0; i < flightInfo.length; i++) { %>
-        <div class="container" style="margin-top: 30px;background-color: grey">
-            <div class="row submit-form">
-                <!--            <form action="/home/flight" method="GET">-->
+    <div class="container">
 
-                <div class="col-md-3 ">
-                    <div class="">
-                        <%
-                            let flightCode = flightInfo[i].flightID["airline"];
-                            let arlines = [
-                                {
-                                    code: "QH",
-                                    name: "Bamboo Airways"
-                                },
-                                {
-                                    code: "VU",
-                                    name: "Vietravel Airlines"
-                                },
-                                {
-                                    code: "VNA",
-                                    name: "Vietnam Airlines"
-                                },
-                                {
-                                    code: "VJ",
-                                    name: "VietJet Air"
-                                }
-                            ]
+        <% for(let i = 0; i < flightInfo.length; i++) { %>
+            <div class="" style="margin-top: 30px;background-color: grey">
+                <div class="row submit-form">
+                    <!--            <form action="/home/flight" method="GET">-->
 
-                            let airline = arlines.find(airline => {
-                                return flightCode === airline.code
-                            }) || {code: "unknown", name: "unknown"};
-                        %>
-                        <label class="bigger-font"><h3><%= airline.name %></h3></label>
-                    </div>
-                </div>
-
-                <div class="col-md-6 ">
-                    <div class="">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label class="bigger-font"><%= flightInfo[i].flightID["STD"] %> </label>
-                            </div>
-                            <div class="col-md-4">
-                                <%
-                                    // js code here
-                                    var STD = flightInfo[i].flightID["STD"].split(":");
-                                    STD.map(std => {
-                                        std = parseInt(std);
-                                    });
-                                    var STA = flightInfo[i].flightID["STA"].split(":");
-                                    STA.map(sta => {
-                                        sta = parseInt(sta);
-                                    });
-                                    if (+STA[0] < +STD[0]) {
-                                        STA[0] = 24 +  STA[0];
+                    <div class="col-md-3 ">
+                        <div class="">
+                            <%
+                                let flightCode = flightInfo[i].flightID["airline"];
+                                let arlines = [
+                                    {
+                                        code: "QH",
+                                        name: "Bamboo Airways"
+                                    },
+                                    {
+                                        code: "VU",
+                                        name: "Vietravel Airlines"
+                                    },
+                                    {
+                                        code: "VNA",
+                                        name: "Vietnam Airlines"
+                                    },
+                                    {
+                                        code: "VJ",
+                                        name: "VietJet Air"
                                     }
-                                    var flightTime = [];
-                                    flightTime[0] = STA[0] - STD[0];
-                                    flightTime[1] = STA[1] - STD[1];
-                                %>
-                                <label class="bigger-font "><%= flightTime[0] %>h <%= flightTime[1] %>m</label>
+                                ]
+
+                                let airline = arlines.find(airline => {
+                                    return flightCode === airline.code
+                                }) || {code: "unknown", name: "unknown"};
+                            %>
+                            <label class="bigger-font"><h3><%= airline.name %></h3></label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 ">
+                        <div class="">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="bigger-font"><%= flightInfo[i].flightID["STD"] %> </label>
+                                </div>
+                                <div class="col-md-4">
+                                    <%
+                                        // js code here
+                                        var STD = flightInfo[i].flightID["STD"].split(":");
+                                        STD.map(std => {
+                                            std = parseInt(std);
+                                        });
+                                        var STA = flightInfo[i].flightID["STA"].split(":");
+                                        STA.map(sta => {
+                                            sta = parseInt(sta);
+                                        });
+                                        if (+STA[0] < +STD[0]) {
+                                            STA[0] = 24 + STA[0];
+                                        }
+                                        var flightTime = [];
+                                        flightTime[0] = STA[0] - STD[0];
+                                        flightTime[1] = STA[1] - STD[1];
+                                    %>
+                                    <label class="bigger-font "><%= flightTime[0] %>h <%= flightTime[1] %>m</label>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="bigger-font"><%= flightInfo[i].flightID["STA"] %> </label>
+
+                                </div>
 
                             </div>
-                            <div class="col-md-3">
-                                <label class="bigger-font"><%= flightInfo[i].flightID["STA"] %> </label>
 
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="bigger-font "><%= flightInfo[i].flightID["departure"]["code"] %> </label>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="bigger-font "><i class="fa fa-long-arrow-right bigger-font "
+                                                                   aria-hidden="true"></i></label>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="bigger-font"><%= flightInfo[i].flightID["arrival"]["code"] %> </label>
+
+                                </div>
                             </div>
+
 
                         </div>
+                    </div>
 
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label class="bigger-font "><%= flightInfo[i].flightID["departure"]["code"] %> </label>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="bigger-font "><i class="fa fa-long-arrow-right bigger-font "
-                                                               aria-hidden="true"></i></label>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="bigger-font"><%= flightInfo[i].flightID["arrival"]["code"] %> </label>
-
-                            </div>
+                    <div class="col-md-3 ">
+                        <div class="">
+                            <br>
+                            <span class="price"><%= flightInfo[i].price.toLocaleString("vi-VN") %> VND/</span><span
+                                    class="bigger-font">pax</span>
                         </div>
-
-
                     </div>
-                </div>
 
-                <div class="col-md-3 ">
-                    <div class="">
-                        <br>
-                        <span class="price"><%= flightInfo[i].price.toLocaleString("vi-VN") %> VND/</span><span class="bigger-font">pax</span>
-                    </div>
-                </div>
+                    <div class="col-md-9"></div>
+                    <div class="col-md-3">
+                        <fieldset>
 
-                <div class="col-md-9"></div>
-                <div class="col-md-3">
-                    <fieldset>
-
-                            <a id="choose-link" onclick="saveLastPax('<%=passengersSearch %>')" href="/home/prebooking/<%= flightInfo[i]._id %>-<%= passengersSearch %>">
-                                <button class="btn" >Choose </button>
+                            <a id="choose-link" onclick="saveLastPax('<%= passengersSearch %>')"
+                               href="/home/prebooking/<%= flightInfo[i]._id %>-<%= passengersSearch %>">
+                                <button class="btn">Choose</button>
                             </a>
 
-                    </fieldset>
-                </div>
+                        </fieldset>
+                    </div>
 
-                <!--            </form>-->
+                    <!--            </form>-->
+                </div>
             </div>
+        <% } %>
+
+        <style>
+            .active {
+                background-color: #ffe165 !important;
+            }
+
+        </style>
+
+        <div class="row">
+            <nav>
+                <ul class="pagination" style="align-items: center;
+  justify-content: center !important; font-size: 15px;">
+                    <%
+                    var disabled1 = "";
+                    if (pageConfig.prevPage < 1) {
+                        disabled1 = "disabled"
+                    }
+                    %>
+                    <li onclick="setPage('<%= pageConfig.prevPage %>')" class="<%= disabled1 %>">
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true">Prev</span>
+                        </a>
+                    </li>
+                    <%
+                    let active = "";
+                    for (let i = -1; i < 2; i++) {
+                        if (i === 0) {
+                            active = "active";
+                        } else {
+                            active = "";
+                        }
+                    if(pageConfig.currentPage + i > 0 && pageConfig.currentPage + i <= pageConfig.totalPage ) { %>
+                        <li class="<%= active %>" onclick="setPage('<%= pageConfig.currentPage + i%>')" ><a href="#"><%= pageConfig.currentPage + i %></a></li>
+                    <% } } %>
+
+                    <%
+                    var disabled2 = "";
+                    if (pageConfig.nextPage > pageConfig.totalPage) {
+                        disabled2 = "disabled"
+                    }
+                    %>
+                    <li onclick="setPage('<%= pageConfig.nextPage %>')" class="<%= disabled2 %>">
+                        <a href="#" aria-label="Next">
+                            <span aria-hidden="true">Next</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
         </div>
-    <% } %>
+
+        <script>
+            function setPage(page) {
+                let currentURL = location.href;
+                let url = new URL(currentURL);
+                url.searchParams.set('page', page);
+                location.href = url.toString();
+            }
+
+        </script>
+
+    </div>
 </section>
 
 

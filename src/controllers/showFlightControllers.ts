@@ -16,6 +16,7 @@ class ShowFlightController {
             class: className,
             departure: departDate,
             passengers: totalPassenger,
+            page,
             ...rest
         } = req.query
         let dateSplit = departDate.split("/"); // tách ra để format lại date input từ dạng mm/dd/yyyy về dạng yyyy-mm-dd , để đưa vào new Date() k bị lỗi
@@ -24,6 +25,8 @@ class ShowFlightController {
         const dateSearch = (new Date(`${dateSplit[2]}-${dateSplit[0]}-${dateSplit[1]}`)).getTime();
 
         const searchFlight = {remainingSeats: {$gt: passengers}}
+
+
         let fullDetailFlight = await flightDetailModel.find(searchFlight)
             .populate([
                 {
@@ -48,10 +51,42 @@ class ShowFlightController {
         //
         let user = req.user;
 
+        // pagination
+        let currentPage = page ? +page : 1;
+        const perPage = 2;
+        let totalItems = searchDetailFlight.length;
+
+        let totalPage = Math.ceil(totalItems / perPage);
+        currentPage = currentPage > totalPage ? totalPage : currentPage;
+        currentPage = currentPage < 1 ? 1 : currentPage;
+        currentPage = isNaN(currentPage) ? 1 : currentPage;
+
+        let prevPage = currentPage - 1;
+        // prevPage = prevPage < 1 ? 1 : prevPage;
+        let nextPage = currentPage + 1;
+        // nextPage = nextPage > totalPage ? totalPage : nextPage;
+
+
+
+        let pageConfig = {prevPage, currentPage, nextPage, totalPage}
+
+        // end pagination
+
+        //1,2,3
+        //1,2,4
+
+        let start = (currentPage - 1) * (perPage)
+        let end = start + perPage;
+
+        let resultSearchFlight = searchDetailFlight.slice(start, end);
+
+
         // console.log(passengersSearch)
 
         // return res.json(searchDetailFlight);
-        res.render('flight', {flightInfo: searchDetailFlight, passengersSearch,user})
+
+        // res.render('flight', {flightInfo: searchDetailFlight, passengersSearch, user, pageConfig})
+        res.render('flight', {flightInfo: resultSearchFlight, passengersSearch, user, pageConfig})
     };
 
     async showInfoFlight(req, res, next) {
@@ -75,7 +110,12 @@ class ShowFlightController {
         const options = {weekday: 'short', year: 'numeric', month: 'long', day: 'numeric'};
         options["timeZone"] = 'Asia/Bangkok';
         let date = fullDetailFlight[0].flightID["date"].toLocaleDateString('en-GB', options);
-        res.render('prebooking', {flightInfo: fullDetailFlight, date: date, quantityPassenger: quantityPassenger,user});
+        res.render('prebooking', {
+            flightInfo: fullDetailFlight,
+            date: date,
+            quantityPassenger: quantityPassenger,
+            user
+        });
     }
 }
 

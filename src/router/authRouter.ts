@@ -42,7 +42,7 @@ router.post('/login', passport.authenticate('local', {
     if(req.user["role"] === "admin") {
         prevUrl = "/admin/list-users"
     }
-    return res.redirect(prevUrl)
+    return prevUrl ? res.redirect(prevUrl) :  res.redirect("/");
 });
 
 
