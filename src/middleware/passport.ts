@@ -7,13 +7,10 @@ import bcrypt from 'bcrypt';
 passport.use(new LocalStrategy(
    function (username, password, done) {
         User.findOne({username: username}, function (err, user) {
-            // console.log(user);
-            bcrypt.compare(password, user.password, function(err, result) {
-                // result === true
-                // console.log(result);
-                // console.log(password,'alo',user.password)
+            bcrypt.compare(password, user?.password, function(err, result) {
+
                 if (err) {
-                    return done(err);
+                    return done({code: 400, message: err.message});
                 }
                 if (!user) {
                     return done(null, false);
